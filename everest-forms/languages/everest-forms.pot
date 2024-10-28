@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Everest Forms plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Everest Forms 3.0.3.1\n"
+"Project-Id-Version: Everest Forms 3.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/everest-forms\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-17T10:58:16+05:45\n"
+"POT-Creation-Date: 2024-10-28T14:36:11+05:45\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: everest-forms\n"
@@ -1083,7 +1083,7 @@ msgstr ""
 #: includes/admin/builder/class-evf-builder-settings.php:361
 #: includes/admin/settings/class-evf-settings-email.php:25
 #: includes/admin/settings/class-evf-settings-validation.php:64
-#: includes/class-evf-smart-tags.php:119
+#: includes/class-evf-smart-tags.php:120
 #: includes/fields/class-evf-field-email.php:20
 #: includes/fields/class-evf-field-email.php:97
 #: includes/fields/class-evf-field-email.php:269
@@ -1147,7 +1147,7 @@ msgstr ""
 #: includes/admin/form-migrator/class-evf-fm-contactform7.php:401
 #: includes/admin/form-migrator/class-evf-fm-wpforms.php:206
 #: includes/class-evf-form-task.php:163
-#: includes/shortcodes/class-evf-shortcode-form.php:908
+#: includes/shortcodes/class-evf-shortcode-form.php:911
 msgid "This form is disabled."
 msgstr ""
 
@@ -4134,7 +4134,7 @@ msgstr ""
 
 #: includes/class-evf-form-task.php:95
 #: includes/class-evf-form-task.php:576
-#: includes/shortcodes/class-evf-shortcode-form.php:976
+#: includes/shortcodes/class-evf-shortcode-form.php:979
 #: includes/templates/contact.php:61
 msgid "Thanks for contacting us! We will be in touch with you shortly."
 msgstr ""
@@ -4198,7 +4198,7 @@ msgid "Everest Forms Process Completed."
 msgstr ""
 
 #: includes/class-evf-form-task.php:625
-#: templates/notices/success.php:69
+#: templates/notices/success.php:70
 msgid "Download your form submission in PDF format"
 msgstr ""
 
@@ -4605,128 +4605,132 @@ msgstr ""
 msgid "Form ID"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:71
+#: includes/class-evf-smart-tags.php:55
+msgid "Entry ID"
+msgstr ""
+
+#: includes/class-evf-smart-tags.php:72
 msgid "Alpha"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:75
+#: includes/class-evf-smart-tags.php:76
 msgid "Alphanumeric"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:79
+#: includes/class-evf-smart-tags.php:80
 #: includes/fields/class-evf-field-color.php:20
 msgid "Color"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:83
+#: includes/class-evf-smart-tags.php:84
 msgid "Country Code (2 Character)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:87
+#: includes/class-evf-smart-tags.php:88
 msgid "Country Code (3 Character)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:91
+#: includes/class-evf-smart-tags.php:92
 msgid "Date (mm/dd)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:95
+#: includes/class-evf-smart-tags.php:96
 msgid "Date (dd/mm)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:99
+#: includes/class-evf-smart-tags.php:100
 msgid "Date (mm.dd.yyyy)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:103
+#: includes/class-evf-smart-tags.php:104
 msgid "Date (dd.mm.yyyy)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:107
+#: includes/class-evf-smart-tags.php:108
 msgid "Date (yyyy-mm-dd)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:111
+#: includes/class-evf-smart-tags.php:112
 msgid "Date (mm/dd/yyyy)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:115
+#: includes/class-evf-smart-tags.php:116
 msgid "Date (dd/mm/yyyy)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:123
+#: includes/class-evf-smart-tags.php:124
 msgid "IP (Version 4)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:127
+#: includes/class-evf-smart-tags.php:128
 msgid "IP (Version 6)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:131
+#: includes/class-evf-smart-tags.php:132
 msgid "ISBN"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:135
+#: includes/class-evf-smart-tags.php:136
 msgid "Latitude or Longitude"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:139
+#: includes/class-evf-smart-tags.php:140
 msgid "Numeric"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:143
+#: includes/class-evf-smart-tags.php:144
 msgid "Password (Numeric, lower, upper)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:147
+#: includes/class-evf-smart-tags.php:148
 msgid "Password (Numeric, lower, upper, min 8)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:151
+#: includes/class-evf-smart-tags.php:152
 msgid "Phone - General"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:155
+#: includes/class-evf-smart-tags.php:156
 msgid "Phone - UK"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:159
+#: includes/class-evf-smart-tags.php:160
 msgid "Phone - US: 123-456-7890"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:163
+#: includes/class-evf-smart-tags.php:164
 msgid "Phone - US: (123)456-7890"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:167
+#: includes/class-evf-smart-tags.php:168
 msgid "Phone - US: (123) 456-7890"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:171
+#: includes/class-evf-smart-tags.php:172
 msgid "Phone - US: Flexible"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:175
+#: includes/class-evf-smart-tags.php:176
 msgid "Postal Code (UK)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:179
+#: includes/class-evf-smart-tags.php:180
 msgid "Price (1.23)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:183
+#: includes/class-evf-smart-tags.php:184
 msgid "Slug"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:187
+#: includes/class-evf-smart-tags.php:188
 msgid "Time (hh:mm:ss)"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:191
+#: includes/class-evf-smart-tags.php:192
 msgid "URL"
 msgstr ""
 
-#: includes/class-evf-smart-tags.php:195
+#: includes/class-evf-smart-tags.php:196
 msgid "Zip Code"
 msgstr ""
 
@@ -13353,26 +13357,26 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: includes/evf-core-functions.php:5007
-#: includes/evf-core-functions.php:5049
-#: includes/evf-core-functions.php:5091
+#: includes/evf-core-functions.php:5010
+#: includes/evf-core-functions.php:5052
+#: includes/evf-core-functions.php:5094
 msgid "Everest Forms Daily Entries Statistics Report"
 msgstr ""
 
-#: includes/evf-core-functions.php:5012
-#: includes/evf-core-functions.php:5054
-#: includes/evf-core-functions.php:5097
+#: includes/evf-core-functions.php:5015
+#: includes/evf-core-functions.php:5057
+#: includes/evf-core-functions.php:5100
 msgid "Everest Forms Weekly Entries Statistics Report"
 msgstr ""
 
-#: includes/evf-core-functions.php:5017
-#: includes/evf-core-functions.php:5059
-#: includes/evf-core-functions.php:5103
+#: includes/evf-core-functions.php:5020
+#: includes/evf-core-functions.php:5062
+#: includes/evf-core-functions.php:5106
 msgid "Everest Forms Monthly Entries Statistics Report"
 msgstr ""
 
 #. translators: %s: Status Log URL
-#: includes/evf-core-functions.php:5636
+#: includes/evf-core-functions.php:5639
 msgid "Please check the `evf_mail_errors` log under <a target=\"_blank\" href=\"%s\"> Logs </a> section."
 msgstr ""
 
@@ -13776,7 +13780,7 @@ msgstr ""
 msgid "Enable to use date/time field as slot booking."
 msgstr ""
 
-#: includes/fields/class-evf-field-date-time.php:1154
+#: includes/fields/class-evf-field-date-time.php:1155
 msgid "---Select Field---"
 msgstr ""
 
@@ -14362,51 +14366,51 @@ msgstr ""
 msgid "Failed to read changelog."
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:62
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:64
 msgid "No entry data found!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:74
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:76
 msgid "Form id is missing!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:86
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:88
 msgid "Form is not found!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:98
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:100
 msgid "Form is disalbed!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:108
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:110
 msgid "Form is empty!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:118
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:120
 msgid "Save entris is enable! Please disable to save the entry."
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:209
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:211
 msgid "Error found!!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:249
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:251
 msgid "Contact your administrator to enable REST API access"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:259
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:261
 msgid "Contact your administrator to generate the api key."
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:269
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:271
 msgid "Missing api key!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:277
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:279
 msgid "Empty api key!"
 msgstr ""
 
-#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:288
+#: includes/RestApi/controllers/version1/class-evf-entry-submission.php:290
 msgid "Unauthorized api key."
 msgstr ""
 
@@ -14525,7 +14529,7 @@ msgid "Something went wrong, please try again later."
 msgstr ""
 
 #. translators: %s - URL to a non-amp version of a page with the form.
-#: includes/shortcodes/class-evf-shortcode-form.php:949
+#: includes/shortcodes/class-evf-shortcode-form.php:952
 msgid "<a href=\"%s\">Go to the full page</a> to view and submit the form."
 msgstr ""
 
