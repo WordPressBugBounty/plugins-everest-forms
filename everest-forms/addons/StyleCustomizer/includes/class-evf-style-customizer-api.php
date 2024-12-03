@@ -8,6 +8,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\OutputStyle;
+use ScssPhp\ScssPhp\ValueConverter;
 /**
  * Style Customizer API.
  */
@@ -735,7 +738,6 @@ class EVF_Style_Customizer_API {
 	 * @return string|WP_Error The css data, or WP_Error object on failure.
 	 */
 	protected function compile_scss( $form_id = 0, $defaults = array() ) {
-		require_once 'libraries/scssphp/scss.inc.php';
 
 		$form_id  = 0 !== $form_id ? $form_id : $this->form_id;
 		$defaults = ! empty( $defaults ) ? $defaults : $this->defaults;
@@ -745,11 +747,12 @@ class EVF_Style_Customizer_API {
 		$scss = ob_get_clean();
 
 		try {
-			$compiler = new ScssPhp\ScssPhp\Compiler(); // phpcs:ignore PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound
-			$compiler->setVariables( array( 'form_id' => $form_id ) );
-			$compiler->setFormatter( 'ScssPhp\ScssPhp\Formatter\Compressed' );
+			$compiler = new Compiler();
+			$compiler->setOutputStyle( OutputStyle::COMPRESSED );
+			$parsed_form_id = ValueConverter::parseValue( $form_id );
+			$compiler->addVariables( array( 'form_id' => $parsed_form_id ) );
 			$compiler->addImportPath( plugin_dir_path( EVF_PLUGIN_FILE ) . 'assets/css/bourbon/' );
-			$compiled_css = $compiler->compile( trim( $scss ) );
+			$compiled_css = $compiler->compileString( trim( $scss ) )->getCss();
 			return $compiled_css;
 		} catch ( Exception $e ) {
 			$logger = evf_get_logger();

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Everest Forms plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Everest Forms 3.0.5.1\n"
+"Project-Id-Version: Everest Forms 3.0.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/everest-forms\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-03T13:18:54+05:45\n"
+"POT-Creation-Date: 2024-12-03T13:56:32+05:45\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: everest-forms\n"
@@ -506,108 +506,108 @@ msgstr ""
 msgid "Template deleted successfully."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:96
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:99
 #: includes/admin/views/html-admin-page-builder.php:115
 msgid "Save"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:99
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:102
 msgid "Saved"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:194
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:197
 msgid "Looking for a template? You can browse our templates, import and preview templates, then activate them right here."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:195
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:198
 msgid "While previewing a new template, you can continue to tailor things like form styles and custom css, and explore template-specific options."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:211
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:214
 #: addons/StyleCustomizer/includes/customize/class-evf-customize-templates-section.php:56
 msgid "Templates"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:212
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:215
 msgid "Choose your desire templates."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:454
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:457
 msgid "Invalid value for background repeat."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:458
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:461
 msgid "Invalid value for background attachment."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:462
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:465
 msgid "Invalid value for background position X."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:466
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:469
 msgid "Invalid value for background position Y."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:470
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:474
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:473
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:477
 msgid "Invalid value for background size."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:479
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:482
 msgid "Unrecognized background setting."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:520
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:523
 #: includes/admin/settings/class-evf-settings-validation.php:52
 #: includes/class-evf-frontend-scripts.php:346
 #: includes/evf-core-functions.php:1543
 msgid "This field is required."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:521
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:524
 msgid "This is a sample form error message for customize puropse only."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:522
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:525
 msgid "This is a sample form success message for customize puropse only."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:554
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:557
 msgid "Everest Forms &ndash; Styles"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:555
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:558
 msgid "Everest Forms &ndash; Styles Customizer allows you to preview changes and customize any form elements."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:562
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:565
 msgid "Are you sure you want to edit this color palette?"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:563
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:566
 msgid "Your previous custom color palette will be lost!"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:583
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:586
 msgid "Upgrade to Pro Version to Gain Access"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:584
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:587
 msgid "Unfortunately, this feature is available on the Pro version. Please upgrade to unlock it."
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:585
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:588
 #: includes/admin/class-evf-admin-assets.php:219
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:586
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:589
 #: includes/admin/class-evf-admin-assets.php:157
 #: includes/admin/class-evf-admin-assets.php:264
 msgid "OK"
 msgstr ""
 
-#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:759
+#: addons/StyleCustomizer/includes/class-evf-style-customizer-api.php:762
 msgid "ScssPhp: Unable to compile content"
 msgstr ""
 
