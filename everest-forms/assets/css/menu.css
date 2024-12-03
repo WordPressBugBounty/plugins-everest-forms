@@ -391,7 +391,7 @@
   content: "\e903";
 }
 .evf-icon-coupon::before {
-  content: "\e904";
+  content: "\e90b";
 }
 .evf-icon-yes-no::before {
   content: "\e905";
@@ -413,4 +413,7 @@
 }
 .evf-icon-turnstile::before, .evf-icon-recaptcha::before, .evf-icon-hcaptcha::before {
   content: "\e917";
+}
+.evf-icon-builder::before {
+  content: "\e904";
 }

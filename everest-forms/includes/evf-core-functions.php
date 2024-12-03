@@ -1143,7 +1143,7 @@ function evf_get_random_string( $length = 10 ) {
  * @return array of form data.
  */
 function evf_get_all_forms( $skip_disabled_entries = false, $check_disable_storing_entry_info = true ) {
-	if( is_null( evf()->form ) ) {
+	if ( is_null( evf()->form ) ) {
 		return array();
 	}
 	$forms    = array();
@@ -1580,10 +1580,10 @@ function evf_get_license_plan() {
 }
 
 /** To handle the backward compatibility for those user who is still using the plus and professional plan license key.
-*
-* @since 3.0.0
-* @param $license_plan License plan.
-*/
+ *
+ * @since 3.0.0
+ * @param $license_plan License plan.
+ */
 function evf_handle_license_plan_compatibility( $license_plan ) {
 	$license_plan = ( 'plus' === $license_plan || 'professional' === $license_plan ) ? 'personal' : $license_plan;
 	return $license_plan;
@@ -4554,7 +4554,7 @@ function evf_sanitize_builder( $post_data = array() ) {
 			$value = wp_kses_post( $data->value );
 		} elseif ( 'settings[external_url]' === $data->name ) {
 			$value = esc_url_raw( $data->value );
-		} elseif ( preg_match( '/evf_email_message/', $data->name ) || preg_match( '/telegram_message/', $data->name )) {
+		} elseif ( preg_match( '/evf_email_message/', $data->name ) || preg_match( '/telegram_message/', $data->name ) || preg_match( '/slack_message/', $data->name )) {
 			$value = wp_kses_post( $data->value );
 		} elseif ( preg_match('/calculation_field/', $data->name) ) {
 			$value = wp_kses_post( $data->value );
@@ -5532,12 +5532,12 @@ if ( ! function_exists( 'evf_check_addons_update' ) ) {
 				);
 			}
 
-			if ( class_exists( 'EverestForms_Style_Customizer' ) && is_plugin_active( 'everest-forms-style-customizer/everest-forms-style-customizer.php' ) && defined( 'EVF_STYLE_CUSTOMIZER_PLUGIN_FILE' ) && defined( 'EVF_STYLE_CUSTOMIZER_VERSION' ) ) {
+			if ( class_exists( 'EverestForms_Style_Customizer' ) && is_plugin_active( 'everest-forms-style-customizer/everest-forms-style-customizer.php' ) && defined( 'EVF_STYLE_CUSTOMIZER_PLUGIN_FILE' ) && defined( 'EVF_VERSION' ) ) {
 				$plugins_to_check['EverestForms_Style_Customizer'] = array(
 					'plugin'  => 'everest-forms-style-customizer/everest-forms-style-customizer.php',
 					'file'    => EVF_STYLE_CUSTOMIZER_PLUGIN_FILE,
 					'id'      => 16166,
-					'version' => EVF_STYLE_CUSTOMIZER_VERSION,
+					'version' => EVF_VERSION,
 				);
 			}
 
@@ -5612,13 +5612,40 @@ function evf_get_next_key_array( $arr, $key ) {
 /**
  * Function to generate the api key base on the string.
  *
- * @since xx.xx.xx
+ * @since 3.0.5
  * @param $string The string value.
  */
 function generate_api_key( $string = 'evf_restapi', $length = 32 ) {
 	$key = bin2hex( random_bytes( $length ) );
 
     return $key;
+}
+
+if ( !function_exists( 'evf_hex_to_rgb' ) ) {
+	/**
+	 * Converts a hex color code to an RGB array.
+	 *
+	 * @since 3.0.5
+	 * @param string $hexcolor Hex color code, with or without '#'.
+	 * @return array RGB values as [red, green, blue].
+	 */
+	function evf_hex_to_rgb( $hexcolor ) {
+		$hexcolor = ltrim( $hexcolor, '#' );
+
+		if ( strlen( $hexcolor ) == 6 ) {
+			$r = hexdec(substr($hexcolor, 0, 2));
+			$g = hexdec(substr($hexcolor, 2, 2));
+			$b = hexdec(substr($hexcolor, 4, 2));
+		} elseif (strlen($hexcolor) == 3) {
+			$r = hexdec(str_repeat(substr($hexcolor, 0, 1), 2));
+			$g = hexdec(str_repeat(substr($hexcolor, 1, 1), 2));
+			$b = hexdec(str_repeat(substr($hexcolor, 2, 1), 2));
+		} else {
+			return [0, 0, 0];
+		}
+
+		return [$r, $g, $b];
+	}
 }
 
 add_action( 'wp_mail_failed', 'evf_email_send_failed_handler', 1 );
@@ -5671,5 +5698,7 @@ const interval = setInterval( () => {
 	}
 }, 1 );
 JS;
-	wp_print_inline_script_tag( $js );
+	if ( function_exists( 'wp_print_inline_script_tag' ) ) {
+		wp_print_inline_script_tag( $js );
+	}
 } );
