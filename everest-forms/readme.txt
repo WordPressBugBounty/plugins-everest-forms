@@ -1,14 +1,14 @@
-=== Everest Forms – WP Form Builder for Contact, Payment, Quiz, Newsletter, Survey & Poll! ===
+=== Everest Forms – Contact Forms, Quiz, Survey, Newsletter & Payment Form Builder for WordPress ===
 Contributors:everestforms,WPEverest
 Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 6.7.1
 Requires PHP: 7.2
-Stable tag: 3.0.8.1
+Stable tag: 3.0.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Fast, Lightweight & Secure Contact Form plugin. Beautiful & Responsive Pre-Built Templates. Create Contact, Booking, Payment, Quiz, Survey, Multi-Step, Registration and any type of forms.
+Best WordPress Form Plugin to Create Contact Forms, Surveys, Quizzes, Payment Forms, & Custom Forms Using Drag & Drop Form Builder.
 
 == Description ==
 
@@ -308,6 +308,12 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 
 == Changelog ==
 
+= 3.0.9         - 24-01-2025
+* Enhance       - Forms table design.
+* Enhance       - Approve deny entry mail.
+* Dev		    - Subscription plan field with trail period.
+* Fix         	- Malicious File upload.
+
 = 3.0.8.1         - 08-01-2025
 * Fix		      - Email Preview not working issue .
 
@@ -325,12 +331,11 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 * Fix           - Post Meta smart tag issue.
 * Fix           - Print option not working.
 
-
 = 3.0.7.1       - 30-12-2024
-* Added         -  Transient for addon update.
+* Tweak         -  Transient for addon update.
 
 = 3.0.6        - 03-12-2024
-* Removed       - Necessary file from the distignore file.
+* Fix         - Necessary file from the distignore file.
 
 = 3.0.5.2        - 03-12-2024
 * Enhance        - SCSS PHP Compiler Updated.
@@ -377,7 +382,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 = 3.0.3        - 16-09-2024
 * Feature      - Add new form page design.
 * Feature      - Entry submission RestApi.
-* Enhancement  - Send file directly as an attachment.
+* Enhance      - Send file directly as an attachment.
 * Fix          - Premium sidebar design issue.
 * Fix          - Escaping issue in Yes/No field.
 * Dev 		   - Calculation module.
@@ -393,7 +398,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 = 3.0.2        - 07-08-2024
 * Feature 	   - Enable minimum time for form submission.
 * Feature      - Delete option in Header logo in PDF Submission.
-* Enhancement  - Custom file name field settings.
+* Enhance      - Custom file name field settings.
 * Fix		   - Escaping issue in Yes/No Field.
 * Dev          - Mollie Payment.
 * Dev          - Square Payment.
@@ -410,8 +415,8 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 
 = 3.0.1        - 03-07-2024
 * Feature 	   - Import entries in our form using csv file.
-* Enhancement  - Global Setting Premium Sidebar.
-* Enhancement  - Dashboard page.
+* Enhance      - Global Setting Premium Sidebar.
+* Enhance      - Dashboard page.
 * Fix          - Block design all messed up when viewed in block editor.
 * Fix          - Wrong instruction on captcha.
 * Fix          - Email template on email clone, save and continue forms.
@@ -427,18 +432,18 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 = 3.0.0       - 23-05-2024
 * Feature     - Dashboard page.​
 * Feature     - Email scheduling in daily, weekly or monthly for the progress data of form.​
-* Enhancement - Captcha field.​
-* Enhancement - Gutenberg block.​
-* Enhancement - Global Setting Design. ​
-* Enhancement - Move everest form pro fields into free.​
+* Enhance 	  - Captcha field.​
+* Enhance 	  - Gutenberg block.​
+* Enhance 	  - Global Setting Design. ​
+* Enhance 	  - Move everest form pro fields into free.​
 * Fix         - Custom JS issue with html special character.
 
 = 2.0.9       - 04-04-2024
 * Feature     - System information.
 * Feature 	  - Show entry preview after form submission.
 * Feature     - Admin approval entries.
-* Enhancement - Date field formats.
-* Enhancement - Appended active class to active input field.
+* Enhance     - Date field formats.
+* Enhance     - Appended active class to active input field.
 * Fix 		  - Everest Forms conflict with WordPress Customizer.
 * Tweak       - Filter introduced for template hierarchy.
 
@@ -447,13 +452,13 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 
 = 2.0.8       - 12-03-2024
 * Fix         - Restrict font_url for unauthorized users and allow only certain font_url.
-* Enhancement - Search functionality on Addons page.
+* Enhance     - Search functionality on Addons page.
 * Feature     - Embedded shortcode directly in page through builder.
 * Feature     - Form migrator for WPForms and Contact Forms 7.
 
 = 2.0.7       - 22-02-2024
-* Enhancement - Screenshot video on upgrade to pro popup.
-* Enhancement - Clone email form settings.
+* Enhance     - Screenshot video on upgrade to pro popup.
+* Enhance     - Clone email form settings.
 * Feature     - Email preview.
 * Fix 		  - Critical error in entry file.
 * Fix         - Show values setting not displaying in select field.
@@ -461,7 +466,7 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 * Dev         - Compatibility for Google calendar integration.
 
 = 2.0.6       - 26-12-2023
-* Upgraded    - Input mask library.
+* Tweak       - Input mask library.
 * Fix		  - Empty values in entries for (select, checkbox, radio) fields when wordPress site is in another language.
 * Fix         - XLSX export issue.
 * Fix 		  - PHP 8.2 dynamic properties are deprecated.
