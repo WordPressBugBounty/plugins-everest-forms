@@ -1198,8 +1198,7 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 	 */
 	protected function generate_file_info( $file ) {
 		$dir = $this->get_form_files_dir();
-
-		$file['tmp_path'] = trailingslashit( $this->get_tmp_dir() ) . $file['file'];
+		$file['tmp_path'] = trailingslashit( $this->get_tmp_dir() ) . sanitize_file_name($file['file']);
 		$file['type']     = 'application/octet-stream';
 		if ( is_file( $file['tmp_path'] ) ) {
 			$filetype     = wp_check_filetype( $file['tmp_path'] );
