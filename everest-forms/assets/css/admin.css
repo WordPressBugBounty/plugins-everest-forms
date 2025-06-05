@@ -6866,13 +6866,31 @@ body.everest-forms-builder.everest-forms_page_evf-builder #wpfooter {
   margin-left: 0;
   display: block;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 24px;
-  padding: 10px 32px;
+  padding: 12px 32px;
   border: none transparent;
   background-color: transparent;
   transition: 0.3s background-color ease-in-out;
+}
+.everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover, .everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab.nav-tab-active,
+.everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab.nav-tab-active,
+.everest-forms_page_evf-entries .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-entries .everest-forms nav.evf-nav-tab-wrapper a.nav-tab.nav-tab-active,
+.everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab.nav-tab-active {
+  background-color: #8C3EEB;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-bottom: 6px;
+}
+.everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-entries .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover,
+.everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab:hover {
+  background-color: #8546D3;
 }
 .everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon,
 .everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon,
@@ -6911,7 +6929,7 @@ body.everest-forms-builder.everest-forms_page_evf-builder #wpfooter {
 .everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.settings::before,
 .everest-forms_page_evf-entries .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.settings::before,
 .everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.settings::before {
-  content: "\e92a";
+  content: "\e92b";
 }
 .everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.recaptcha::before,
 .everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.recaptcha::before,
@@ -6950,7 +6968,7 @@ body.everest-forms-builder.everest-forms_page_evf-builder #wpfooter {
 .everest-forms_page_evf-entries .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.payments::before,
 .everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.payment::before,
 .everest-forms_page_evf-tools .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.payments::before {
-  content: "\e92b";
+  content: "\e92a";
 }
 .everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.integration::before, .everest-forms_page_evf-builder .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.integrations::before,
 .everest-forms_page_evf-settings .everest-forms nav.evf-nav-tab-wrapper a.nav-tab span.evf-nav-icon.integration::before,
@@ -7812,7 +7830,7 @@ p.search-box {
 }
 .everest-forms_page_evf-builder .everest-forms-add-fields-group .handlediv::before,
 .everest-forms_page_evf-builder .everest-forms-field-option-group .handlediv::before {
-  content: "\f142" !important;
+  content: "\f343" !important;
   cursor: pointer;
   display: inline-block;
   font: 400 20px/1 Dashicons;
@@ -7824,7 +7842,7 @@ p.search-box {
 }
 .everest-forms_page_evf-builder .everest-forms-add-fields-group.closed .handlediv::before,
 .everest-forms_page_evf-builder .everest-forms-field-option-group.closed .handlediv::before {
-  content: "\f140" !important;
+  content: "\f347" !important;
 }
 .everest-forms_page_evf-builder #everest-forms-builder {
   width: 100%;
@@ -7941,8 +7959,8 @@ p.search-box {
   margin-right: 24px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .everest-forms-logo img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .everest-forms-btn:focus {
   box-shadow: 0 0 0 3px #ac68ff;
@@ -8057,14 +8075,26 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-save-button:hover {
   background: #31b547;
 }
-.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-preview-button {
+.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-preview-button, .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-show-entries-btn {
   background: #fff;
   margin-left: 10px;
   display: inline-block;
   vertical-align: middle;
 }
-.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-preview-button:hover {
+.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-preview-button:hover, .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-show-entries-btn:hover {
   background: rgba(255, 255, 255, 0.9);
+}
+.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-show-entries-btn {
+  height: 36px;
+  margin-right: 10px;
+  margin-left: 0 !important;
+  width: 96px;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-forms-nav-right .everest-forms-show-entries-btn .evf-nav-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-nav-wrapper .evf-nav-tab-wrapper {
   gap: 4px;
@@ -8210,7 +8240,7 @@ p.search-box {
   width: 400px;
   height: calc(100vh - 105px);
   position: relative;
-  background-color: #f6f7f9;
+  background-color: white;
   border-right: 1px solid #cdd0d8;
 }
 @media screen and (max-width: 1226px) {
@@ -8221,7 +8251,7 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar #evf-collapse {
   width: 22px;
   height: 41px;
-  background: #f6f7f9;
+  background: white;
   position: fixed;
   bottom: 100px;
   border-style: solid;
@@ -8347,16 +8377,18 @@ p.search-box {
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .evf-registered-item {
   padding: 20px 8px;
-  border: 1px solid #cdd0d8;
+  border: 1px solid #EDEFF7;
   width: 30.3%;
   z-index: 999;
-  color: #8e98a2;
+  color: #383838;
+  font-weight: 400;
   cursor: pointer;
   border-radius: 4px;
   font-size: 12px;
   transition: all 0.3s ease-in-out;
   text-align: center;
-  background-color: #fff;
+  background-color: #FBFBFD;
+  line-height: 150%;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .evf-registered-item .dashicons {
   display: block;
@@ -8396,7 +8428,7 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .evf-registered-item:hover {
   color: #8C64C6;
   border-color: #8C64C6;
-  background: #fbf9fd;
+  background: #ffffff;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .evf-registered-item:hover .evf-icon {
   color: inherit;
@@ -8450,7 +8482,9 @@ p.search-box {
   margin: 3px 5px 0 0;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options {
+  background-color: #fffff;
   display: none;
+  height: 100vh;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-border-container .everest-forms-field-option-row.everest-forms-field-option-row-date_format > .inline {
   margin-left: 0;
@@ -8510,6 +8544,11 @@ p.search-box {
   box-shadow: none;
   border-color: #8C64C6;
 }
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-row .evf-meta-key-input-wrapper .evf-meta-key-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option {
   display: none;
 }
@@ -8519,30 +8558,54 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option.everest-forms-field-option-password:not(.everest-forms-confirm-enabled) .everest-forms-field-option-row-confirmation_placeholder {
   display: none;
 }
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-basic, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-advanced, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-conditionals, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-calculations, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-quiz {
+  background: #FBFBFD;
+  padding: 16px 14px;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px;
+  margin: 0 0 12px;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-basic .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-advanced .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-conditionals .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-calculations .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-quiz .everest-forms-field-option-group-toggle {
+  padding-top: 0;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group:last-child {
+  margin-bottom: 0;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group:last-child .everest-forms-field-option-group-inner {
+  border-bottom: none;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.closed {
+  background: #ffffff;
+}
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-phone .format-selected-smart {
   display: none;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-phone .format-selected-default .everest-forms-field-option-row {
   margin-bottom: 15px;
 }
-.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-basic .everest-forms-field-option-group-toggle {
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-basic, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-advanced, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-conditionals, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-calculations, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-quiz {
+  background: #FBFBFD;
+  padding: 16px 14px;
+  border: 1px solid #E1E1E1;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-basic .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-advanced .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-conditionals .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-calculations .everest-forms-field-option-group-toggle, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group.everest-forms-field-option-group-quiz .everest-forms-field-option-group-toggle {
   padding-top: 0;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group:last-child .everest-forms-field-option-group-inner {
   border-bottom: none;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group-toggle {
-  background-color: #f6f7f9;
-  border-bottom: 1px solid #cdd0d8;
-  padding: 15px 0;
   font-size: 14px;
   font-weight: 600;
   display: block;
   color: #23282d;
+  font-weight: 500;
+  line-height: 150%;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .everest-forms-field-options .everest-forms-field-option-group-inner {
-  padding: 15px 0;
-  border-bottom: 1px solid #cdd0d8;
+  padding-top: 15px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel .everest-forms-panel-sidebar .evf-panel-tab {
   display: flex;
@@ -9241,6 +9304,13 @@ p.search-box {
   border-radius: 3px;
   transition: 0.5s box-shadow;
 }
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices .everest-forms-image-choices-item {
+  margin-bottom: 20px !important;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices .everest-forms-image-choices-item:has(input:checked) .everest-forms-field-label-inline {
+  border-color: var(--wp--preset--color--vivid-cyan-blue);
+  box-shadow: 0px 6px 24px 0px rgba(10, 10, 10, 0.06);
+}
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices .everest-forms-image-choices-item label {
   font-weight: normal;
   margin-bottom: 0;
@@ -9252,6 +9322,26 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices .everest-forms-image-choices-item .everest-forms-image-choices-image img {
   max-width: 100%;
   display: block;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices label {
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid #e9e9e9;
+  padding: 12px;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices label br {
+  display: none;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices input[type=radio], .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices input[type=checkbox] {
+  display: none;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices-image {
+  margin-right: 0 !important;
+}
+.everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field .everest-forms-image-choices-image img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field.everest-forms-list-2-columns ul, .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-panel-content-wrap .everest-forms-field.everest-forms-list-3-columns ul {
   display: flex;
@@ -9525,11 +9615,11 @@ p.search-box {
   border-radius: 3px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content label {
-  font-size: 14px;
+  font-size: 15px;
   margin-bottom: 10px;
-  color: #222222;
+  color: #222;
   display: block;
-  font-weight: 600;
+  font-weight: 500;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content label i {
   color: #8e98a2;
@@ -9944,16 +10034,15 @@ p.search-box {
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-multiple .everest-forms-field-option-row li input[type=text],
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-subscription-plan .everest-forms-field-option-row li input[type=text],
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-checkbox .everest-forms-field-option-row li input[type=text] {
-  width: 73%;
+  width: 65%;
   margin-right: 8px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-multiple .everest-forms-field-option-row li input[type=text].evf-money-input,
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-subscription-plan .everest-forms-field-option-row li input[type=text].evf-money-input,
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-checkbox .everest-forms-field-option-row li input[type=text].evf-money-input {
-  width: 23%;
+  width: 30%;
   display: inline-block;
   margin: 0 0 0 auto;
-  flex: 0 0 23%;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-multiple .everest-forms-field-option-row li .evf-trail-period-wrapper,
 .everest-forms_page_evf-builder #everest-forms-builder .evf-tab-content .everest-forms-field-option-payment-multiple .everest-forms-field-option-row li .evf-expiry-date-wrapper,
@@ -10313,14 +10402,15 @@ p.search-box {
   padding: 15px 0;
   font-size: 14px;
   line-height: 150%;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
   color: #23282d;
   background: #e9ebf1;
   border-bottom: 1px solid #cdd0d8;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-fields-tab a.active {
-  background: #f6f7f9;
+  background: #fff;
+  color: #8C64C6;
   border-bottom: 1px solid transparent;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-fields-tab a:first-child {
@@ -10328,7 +10418,8 @@ p.search-box {
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-panel-sidebar .everest-forms-add-fields,
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-panel-sidebar .everest-forms-field-options {
-  padding: 32px 14px;
+  background-color: white;
+  padding: 16px 14px;
 }
 .everest-forms_page_evf-builder #everest-forms-builder .everest-forms-panel-sidebar .everest-forms-add-fields .everest-forms-input-group {
   margin-bottom: 26px !important;
@@ -16096,6 +16187,7 @@ button#show-settings-link {
   cursor: pointer;
   display: flex;
   align-items: center;
+  text-decoration: underline;
 }
 .evf-meta-key-input-wrapper .evf-meta-key-actions {
   position: absolute;
