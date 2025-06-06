@@ -4,7 +4,7 @@ Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 6.8.1
 Requires PHP: 7.2
-Stable tag: 3.2.3
+Stable tag: 3.2.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -343,6 +343,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 3.2.5     	- 06-06-2025
+* Fix 			- Placeholder issue on frontend.
+* Fix 			- Module activation design in dashboard.
+* Fix 			- Inconsistency on form builder field option design.
+
 = 3.2.3     	- 05-06-2025
 * Enhance 		- Form builder design.
 * Enhance 		- Active module workflow.
@@ -350,12 +355,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhance 		- CleanTalk anti spam save access key workflow.
 * Enhance		- Prevent form save if the field label is empty.
 * Tweak 		- Edit meta key design.
-* Tweak 		- Form fields smart tag options for default value in form fields.
-* Tweak 		– Updated jQuery Validate to 1.21.0 to fix security vulnerabilities.
+* Tweak 		– JS validator version updated.
+* Tweak 		- Form fields smart tag options for default value in hidden form fields.
 * Fix 			- Save color palette workflow.
 * Fix 			- Incorrect asterisk display when moving fields.
+* Fix 			- Return null for serialized data in PHP 7.1 or earlier.
 * Fix 			- Selection of option while clicking on label for image option.
-* Fix 			– Prevented unserialize() on PHP versions below 7.1 for security reasons.
 
 
 = 3.2.2     	- 20-05-2025
