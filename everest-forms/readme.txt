@@ -4,7 +4,7 @@ Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 6.8.2
 Requires PHP: 7.2
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -343,7 +343,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-= 3.4.0     	- 27-07-2025
+= 3.4.1     	- 19-09-2025
+* Enhance		- Sanitization and Escaping on smart tag and field display.
+* Fix 			- Currency parsing issue in CSV export.
+* Fix			- Dequeued unnecessary JS when related fields are absent.
+
+= 3.4.0     	- 28-07-2025
 * Enhance		- Escaping and sanitization.
 * Dev 			- App on zapier.
 * Fix 			- Limitation of file upload.
