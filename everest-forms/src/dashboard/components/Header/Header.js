@@ -43,13 +43,18 @@ const Header = ({ hideSiteAssistant = false }) => {
 	const location = useLocation();
 
 	/* global _EVF_DASHBOARD_ */
-	const { version, isPro, upgradeURL, pageType, adminURL } =
+	const { version, isPro, upgradeURL, pageType, adminURL, currentPage } =
 		typeof _EVF_DASHBOARD_ !== 'undefined' && _EVF_DASHBOARD_;
 
 	const isSettingsPage = pageType === 'settings';
 	const isEntriesPage = pageType === 'entries';
 	const isAnalyticsPage = pageType === 'analytics';
-	const isNonDashboardPage = isSettingsPage || isEntriesPage || isAnalyticsPage;
+	// Check if we're on any page that's not the main dashboard
+	const isNonDashboardPage =
+		isSettingsPage ||
+		isEntriesPage ||
+		isAnalyticsPage ||
+		(currentPage && currentPage !== 'evf-dashboard');
 
 	useEffect(() => {
 		if (isOpen) {
@@ -64,7 +69,7 @@ const Header = ({ hideSiteAssistant = false }) => {
 
 	const { leftRoutes, rightRoutes } = useMemo(() => {
 		const allRoutes = hideSiteAssistant
-			? ROUTES.filter((route) => route.route !== '/')
+			? ROUTES.filter((route) => route.key !== 'siteAssistant')
 			: ROUTES;
 
 		const rightRoutePaths = ['/help', 'https://everestforms.net/free-vs-pro/'];
@@ -85,12 +90,7 @@ const Header = ({ hideSiteAssistant = false }) => {
 	const renderNavLink = (route, label, external, showExternalIcon = false) => {
 		const convertedRoute = convertRoute(route, isNonDashboardPage, adminURL);
 		const isExternal = external || isExternalRoute(convertedRoute);
-		const isActive = isRouteActive(
-			route,
-			location.pathname,
-			isSettingsPage,
-			pageType,
-		);
+	const isActive = isRouteActive(route, location.pathname, pageType);
 		const shouldUseExternalLink = isNonDashboardPage || isExternal;
 		const shouldShowIcon = showExternalIcon;
 
@@ -173,18 +173,9 @@ const Header = ({ hideSiteAssistant = false }) => {
 					<Stack direction="row" minH="70px" justify="space-between">
 						{/* Left Side - Logo and Main Navigation */}
 						<Stack direction="row" align="center" gap="7">
-							<Link
-								as={isNonDashboardPage ? 'a' : NavLink}
-								to={isNonDashboardPage ? undefined : '/'}
-								href={
-									isNonDashboardPage
-										? `${adminURL}/admin.php?page=evf-dashboard`
-										: undefined
-								}
-							>
+							<Box>
 								<EVF h="10" w="10" />
-							</Link>
-
+							</Box>
 							<IntersectObserver routes={leftRoutes}>
 								{leftRoutes.map(({ route, label, external }) =>
 									renderNavLink(route, label, external),
@@ -193,7 +184,7 @@ const Header = ({ hideSiteAssistant = false }) => {
 						</Stack>
 
 						<Stack direction="row" align="center" spacing="12px">
-							<Stack direction="row" align="center" gap="1">
+							<Stack direction="row" align="center" gap="1" h={'full'}>
 								{rightRoutes.map(({ route, label, external }) =>
 									renderNavLink(
 										route,

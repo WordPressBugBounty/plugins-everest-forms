@@ -15,7 +15,8 @@
 
 // Components
 @import 'components/badge', 'components/forms', 'components/buttons',
-'components/card', 'components/table';
+	'components/card', 'components/table', 'components/entries-views',
+	'components/toast', 'components/accordion';
 
 @import 'colors';
 @import 'containers';
@@ -38,13 +39,21 @@
 	font-display: block;
 }
 
-/**
-	   * Styling begins
-	   */
+body[class*='everest-forms_page_'] {
+	background: #f4f4f4 !important;
 
-// Remove margin-top from entries list when React header is present
+	#wpcontent {
+		padding-left: 0;
+	}
+
+	#setting-error-bulk_action,
+	#message.updated.notice {
+		display: none !important;
+	}
+}
+
 #everest-forms-entries-list {
-	margin-top: 0;
+	// margin-top: 32px;
 }
 
 .blockUI.blockOverlay {
@@ -109,7 +118,6 @@
 	}
 
 	.plugin-card {
-
 		.name,
 		.desc {
 			margin-right: 0;
@@ -185,7 +193,6 @@
 
 				.action-buttons {
 					.button.updating-message {
-
 						&::before,
 						&::after {
 							margin-top: -1px;
@@ -217,7 +224,7 @@
 }
 
 /**
-	   * Help Tip
+	   * Help Tip Tooltip Icon
 	   */
 .everest-forms-help-tip {
 	cursor: help;
@@ -409,10 +416,45 @@ img.help_tip {
 			width: 100%;
 		}
 
+		input[type='text'] {
+			min-height: 38px;
+			font-size: 13px;
+			line-height: 20px;
+			width: -webkit-fill-available;
+			padding: 0 12px;
+			border: 1px solid #e1e1e1;
+			color: #383838;
+			font-weight: 400;
+			box-shadow: none;
+			margin: 0;
+			border-right: 0;
+			background: none;
+			border-radius: 4px 0 0 4px;
+			flex: 1;
+
+			&:focus {
+				outline: 2px solid transparent;
+			}
+		}
+
 		.evf-copy-shortcode {
-			margin-left: 4px;
-			padding: 0 4px;
-			line-height: 1;
+			width: 38px;
+			box-shadow: none;
+			margin: 0;
+			margin-left: -5px;
+			border-radius: 0 4px 4px 0;
+			background: #f4f4f4 !important;
+			border-color: #e1e1e1 !important;
+			min-height: 36px;
+			line-height: 20px;
+
+			svg {
+				fill: #fff;
+				width: 18px;
+				height: 18px;
+				margin-bottom: 3px;
+				vertical-align: middle;
+			}
 		}
 	}
 }
@@ -575,7 +617,7 @@ body.everest-forms-builder {
 				max-width: 100%;
 
 				&:hover {
-					&+.everest-forms-welcome-video__button {
+					& + .everest-forms-welcome-video__button {
 						visibility: visible;
 						opacity: 1;
 					}
@@ -636,7 +678,7 @@ body.everest-forms-builder {
 	}
 
 	.clearfix {
-		height: auto;
+		height: 80px;
 	}
 
 	// Toggle switch.
@@ -657,7 +699,7 @@ body.everest-forms-builder {
 			z-index: 1;
 
 			&:checked {
-				+.slider {
+				+ .slider {
 					//  background-color: $green;
 					background-color: $evf_primary-color;
 
@@ -722,7 +764,7 @@ body.everest-forms-builder {
 				position: absolute;
 
 				&:checked {
-					+.evf-toggle-switch-wrap {
+					+ .evf-toggle-switch-wrap {
 						background-color: #11a0d2;
 						border: 2px solid #11a0d2;
 						border: 9px solid transparent;
@@ -743,7 +785,7 @@ body.everest-forms-builder {
 						}
 					}
 
-					~.evf-toggle-switch-control {
+					~ .evf-toggle-switch-control {
 						background-color: #fff;
 						border-width: 0;
 						transform: translateX(18px) translateY(-50%);
@@ -755,7 +797,7 @@ body.everest-forms-builder {
 				}
 
 				&:focus {
-					+.evf-toggle-switch-wrap {
+					+ .evf-toggle-switch-wrap {
 						box-shadow:
 							0 0 0 2px #fff,
 							0 0 0 3px #6c7781;
@@ -924,33 +966,54 @@ body.everest-forms-builder {
 			//  margin: 0 0 1.5em;
 			position: relative;
 			border-bottom: none;
-			background-color: $everestforms;
+			background-color: #fff;
 
 			a.nav-tab {
+				// Builder nav
 				position: relative;
 				z-index: 1;
-				color: $color-white;
+				color: #383838;
 				margin-left: 0;
-				display: block;
+				margin-bottom: 0;
+				margin-top: 0;
+				gap: 6px;
+				display: flex;
 				cursor: pointer;
-				font-size: 14px;
-				font-weight: 400;
-				line-height: 24px;
-				padding: 12px 32px;
+				vertical-align: center;
+				align-items: center;
+				font-size: 15px;
+				font-weight: 500;
+				font-family: inherit;
+				// padding: 0 12px;
+				align-items: center;
+				padding: 8px 16px;
+				border-radius: 4px;
 				border: none transparent;
-				background-color: transparent;
-				transition: 0.3s background-color ease-in-out;
+				// max-height: 38px !important;
+				// transition: 0.3s background-color ease-in-out;
+				background: none;
 
 				&:hover,
 				&.nav-tab-active {
-					background-color: #8c3eeb;
-					border-bottom-right-radius: 7px;
-					border-bottom-left-radius: 7px;
-					margin-bottom: 6px;
+					background-color: #f6f3fa;
+					color: #7545bb;
+
+					.evf-nav-icon {
+						&.fields,
+						&.settings,
+						&.integrations,
+						&.payments {
+							&::before {
+								filter: brightness(0) saturate(100%) invert(26%) sepia(77%)
+									saturate(1950%) hue-rotate(249deg) brightness(84%)
+									contrast(81%);
+							}
+						}
+					}
 				}
 
 				&:hover {
-					background-color: #8546d3;
+					// background-color: #8546d3;
 				}
 
 				span {
@@ -958,9 +1021,10 @@ body.everest-forms-builder {
 						float: none;
 						width: auto;
 						height: auto;
-						display: block;
-						font-size: 32px;
+						display: flex;
+						font-size: 17px;
 						text-align: center;
+						// display: none;
 
 						&::before {
 							@include iconbefore('\e001');
@@ -972,7 +1036,9 @@ body.everest-forms-builder {
 						}
 
 						&.settings::before {
-							content: '\e92b';
+							// content: '\e92c';
+							background-repeat: no-repeat;
+							background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17.983 12a3.34 3.34 0 0 1 1.422-2.735 1.34 1.34 0 0 0-1.343-2.303 3.34 3.34 0 0 1-4.728-2.738 1.343 1.343 0 0 0-1.333-1.207 1.34 1.34 0 0 0-1.334 1.213 1 1 0 0 1-.015.099 3.34 3.34 0 0 1-1.644 2.494 3.34 3.34 0 0 1-3.08.135A1.34 1.34 0 0 0 4.604 9.27a3.34 3.34 0 0 1 1.037 4.269 3.34 3.34 0 0 1-1.038 1.187v.001a1.34 1.34 0 0 0 1.334 2.31 3.34 3.34 0 0 1 4.729 2.73 1.34 1.34 0 0 0 2.669 0 3.34 3.34 0 0 1 4.727-2.73l.116.046a1.342 1.342 0 0 0 1.749-1.55 1.34 1.34 0 0 0-.53-.806A3.34 3.34 0 0 1 17.983 12m2 0a1.34 1.34 0 0 0 .445.996l.126.1.008.006a3.34 3.34 0 0 1-3.326 5.756l-.01-.004a1.34 1.34 0 0 0-1.9 1.097v.007a3.34 3.34 0 0 1-6.65 0l-.001-.007a1.34 1.34 0 0 0-1.9-1.097l-.01.004a3.34 3.34 0 0 1-3.326-5.756l.008-.005a1.34 1.34 0 0 0 0-2.195l-.009-.006a3.34 3.34 0 0 1 3.037-5.87l.288.114.01.004a1.34 1.34 0 0 0 1.9-1.096 1 1 0 0 1 .018-.122 3.338 3.338 0 0 1 6.591-.192l.044.308v.006a1.34 1.34 0 0 0 1.9 1.096l.01-.003a3.34 3.34 0 0 1 3.325 5.756l-.007.005a1.34 1.34 0 0 0-.57 1.098'/%3E%3Cpath d='M14 12a2 2 0 1 0-4 0 2 2 0 0 0 4 0m2 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0'/%3E%3C/svg%3E");
 						}
 
 						&.recaptcha::before {
@@ -991,21 +1057,37 @@ body.everest-forms-builder {
 							content: '\e023';
 						}
 
+						&.fields,
+						&.settings,
+						&.integrations,
+						&.payments {
+							&::before {
+								width: 18px;
+								height: 18px;
+								filter: brightness(0) saturate(100%) invert(22%);
+							}
+						}
+
 						&.fields::before {
-							content: '\e92c';
+							background-repeat: no-repeat;
+							background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21.1 5.066c0-.015-.006-.047-.05-.087a.34.34 0 0 0-.227-.079H3.177a.34.34 0 0 0-.228.08c-.043.04-.049.07-.049.086v13.868c0 .015.006.047.05.086.045.042.123.08.227.08h17.646a.34.34 0 0 0 .228-.08c.043-.04.049-.07.049-.086zm1.8 13.868c0 1.167-1.015 1.966-2.077 1.966H3.177c-1.062 0-2.077-.8-2.077-1.966V5.066C1.1 3.9 2.115 3.1 3.177 3.1h17.646c1.062 0 2.077.8 2.077 1.966z'/%3E%3Cpath d='M11 8.1a.9.9 0 0 1 0 1.8H9.9v4.2H11a.9.9 0 0 1 0 1.8H7a.9.9 0 0 1 0-1.8h1.1V9.9H7a.9.9 0 0 1 0-1.8z'/%3E%3C/svg%3E");
 						}
 
 						&.payment,
 						&.payments {
 							&::before {
-								content: '\e92a';
+								// content: '\e92a';
+								background-repeat: no-repeat;
+								background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 12a9 9 0 1 0-18 0 9 9 0 0 0 18 0m2 0c0 6.075-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1s11 4.925 11 11'/%3E%3Cpath d='M14.625 13.75a.875.875 0 0 0-.875-.875h-3.5a2.625 2.625 0 1 1 0-5.25h5.25a.875.875 0 0 1 0 1.75h-5.25a.875.875 0 1 0 0 1.75h3.5a2.625 2.625 0 1 1 0 5.25H8.5a.875.875 0 0 1 0-1.75h5.25a.875.875 0 0 0 .875-.875'/%3E%3Cpath d='M11.125 17.25V6.75a.875.875 0 0 1 1.75 0v10.5a.875.875 0 0 1-1.75 0'/%3E%3C/svg%3E");
 							}
 						}
 
 						&.integration,
 						&.integrations {
 							&::before {
-								content: '\e929';
+								// content: '\e900';
+								background-repeat: no-repeat;
+								background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14 16a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2zm5-10a1 1 0 1 1 0 2h-9a1 1 0 0 1 0-2z'/%3E%3Cpath d='M19 17a2 2 0 1 0-4 0 2 2 0 0 0 4 0m2 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0M9 7a2 2 0 1 0-4 0 2 2 0 0 0 4 0m2 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0'/%3E%3C/svg%3E");
 							}
 						}
 
@@ -1445,7 +1527,6 @@ body.everest-forms-builder {
 				}
 
 				&.loading {
-
 					.evf-button,
 					.evf-button::before,
 					.evf-button::after {
@@ -1489,7 +1570,6 @@ body.everest-forms-builder {
 					}
 
 					@-webkit-keyframes load1 {
-
 						0%,
 						80%,
 						100% {
@@ -1504,7 +1584,6 @@ body.everest-forms-builder {
 					}
 
 					@keyframes load1 {
-
 						0%,
 						80%,
 						100% {
@@ -1759,7 +1838,6 @@ body.everest-forms-builder {
 
 // Entries page
 #evf-dashboard-analytisc-body {
-
 	&::after,
 	&::before {
 		display: none;
@@ -1771,6 +1849,7 @@ p.search-box {
 }
 
 #evf-dashboard-analytics {
+	margin-bottom: 32px;
 	.evf-container {
 		margin-left: 0;
 		margin-right: 0;
@@ -1791,6 +1870,257 @@ p.search-box {
 	}
 }
 
+.evf-entries-tab-wrapper {
+	background: #fff;
+	border-radius: 4px;
+	overflow: visible;
+}
+
+.evf-entries-tab-header {
+	display: flex;
+	align-items: center;
+	background: #fff;
+	min-height: 50px;
+	gap: 12px;
+
+	.evf-entries-tab-header-title {
+		font-size: 22px;
+		font-weight: 600;
+	}
+
+	.evf-entries-form-selector {
+		display: flex;
+		align-items: center;
+		flex: 0 0 auto;
+		padding: 8px 0;
+
+		label.screen-reader-text {
+			clip: rect(1px, 1px, 1px, 1px);
+			position: absolute;
+			height: 1px;
+			width: 1px;
+			overflow: hidden;
+		}
+
+		select#filter-by-form {
+			min-width: 200px;
+			max-width: 280px;
+			height: 36px;
+			border: 1px solid #e1e1e1;
+			border-radius: 4px;
+			padding: 0 10px;
+			font-size: 14px;
+			color: #383838;
+			background: #fff;
+			cursor: pointer;
+			transition: border-color 0.2s ease;
+
+			&:focus {
+				border-color: #7545bb;
+				box-shadow: none;
+				outline: none;
+			}
+		}
+
+		.select2-container {
+			min-width: 200px !important;
+			max-width: 280px;
+			margin: 0 !important;
+
+			.select2-selection--single {
+				height: 36px;
+				border-color: #e1e1e1;
+				border-radius: 4px;
+				transition: border-color 0.2s ease;
+
+				.select2-selection__rendered {
+					line-height: 34px;
+					padding-left: 10px;
+					color: #383838;
+				}
+
+				.select2-selection__arrow {
+					// height: 34px;
+				}
+			}
+
+			&.select2-container--focus,
+			&.select2-container--open {
+				.select2-selection--single {
+					border-color: #7545bb;
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.evf-tab-nav {
+		list-style: none;
+		display: flex;
+		gap: 2px;
+		align-items: center;
+		background: #f3f4f6;
+		border-radius: 5px;
+		padding: 4px;
+		height: max-content;
+		margin-left: auto;
+
+		li {
+			margin: 0;
+			padding: 0;
+
+			&::before {
+				display: none !important;
+			}
+		}
+
+		&__btn {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			border: 0;
+			background: 0 0;
+			margin: 0;
+			box-shadow: none;
+			border-radius: 4px;
+			padding: 6px 16px;
+			font-weight: 500;
+			font-size: 13px;
+			color: #646970;
+			cursor: pointer;
+			transition: all 0.2s ease;
+			white-space: nowrap;
+			line-height: 20px;
+
+			&:focus {
+				outline: none;
+				box-shadow: none;
+			}
+
+			svg {
+				width: 15px;
+				height: 15px;
+				flex-shrink: 0;
+				opacity: 0.5;
+				transition: opacity 0.2s ease;
+			}
+
+			&:hover {
+				color: #7545bb;
+
+				svg {
+					opacity: 0.85;
+				}
+			}
+
+			&.evf-tab--active {
+				color: #7545bb;
+				background: #fff;
+				box-shadow: 0 4px 24px 0 rgba(10, 10, 10, 0.06);
+
+				svg {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+// .evf-tab-nav__btn {
+// 	display: inline-flex;
+// 	align-items: center;
+// 	gap: 7px;
+// 	padding: 13px 16px 12px;
+// 	font-family: inherit;
+// 	font-size: 14px;
+// 	font-weight: 500;
+// 	line-height: 1.4;
+// 	color: #6b6b6b;
+// 	background: transparent;
+// 	border: none;
+// 	border-bottom: 2px solid transparent;
+// 	border-radius: 0;
+// 	cursor: pointer;
+// 	white-space: nowrap;
+// 	// Transitions
+// 	transition:
+// 		color 0.2s ease,
+// 		border-color 0.2s ease,
+// 		background-color 0.2s ease;
+// 	// Reset any WP button defaults
+// 	box-shadow: none !important;
+// 	outline: none;
+
+// 	svg {
+// 		width: 15px;
+// 		height: 15px;
+// 		flex-shrink: 0;
+// 		opacity: 0.5;
+// 		transition: opacity 0.2s ease;
+// 	}
+
+// 	// Hover
+// 	// &:hover {
+// 	// 	color: #7545bb;
+// 	// 	background: #f6f3fa;
+
+// 	// 	svg {
+// 	// 		opacity: 0.85;
+// 	// 	}
+// 	// }
+
+// 	// &:focus {
+// 	// 	box-shadow: none;
+// 	// 	outline: none;
+// 	// }
+
+// 	// Active / selected tab
+// 	&.evf-tab--active {
+// 		color: #7545bb;
+// 		border-bottom-color: #7545bb;
+// 		background: transparent;
+
+// 		svg {
+// 			opacity: 1;
+// 		}
+// 	}
+// }
+.evf-tab-panel {
+	display: none;
+
+	&--active {
+		display: block;
+		animation: evf-tab-fadein 0.18s ease forwards;
+	}
+}
+
+@keyframes evf-tab-fadein {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+#evf-panel-analytics {
+	padding: 0;
+	#evf-dashboard-analytics,
+	#evf-form-analytics {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		margin-bottom: 0 !important;
+
+		.evf-container {
+			max-width: 100% !important;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+}
+
 /**
 	   * Form Builder
 	   **/
@@ -1805,7 +2135,6 @@ p.search-box {
 
 	.everest-forms-panel-content-wrap {
 		.everest-forms-panel-content {
-
 			.evf-content-section,
 			.evf-panel-content-section {
 				min-height: calc(100vh - 155px);
@@ -1815,7 +2144,6 @@ p.search-box {
 					background: #ffffff;
 					border-radius: 13px;
 					border: 1px solid #e1e1e1;
-					box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.09);
 
 					.evf-content-section-title {
 						margin-top: 0;
@@ -1893,7 +2221,6 @@ p.search-box {
 				}
 
 				.everest-forms-panel-field {
-
 					input,
 					textarea,
 					select {
@@ -1958,7 +2285,6 @@ p.search-box {
 
 	.everest-forms-panel-content-wrap {
 		.everest-forms-panel-content {
-
 			.evf-content-section,
 			.evf-panel-content-section {
 				min-height: calc(100vh - 155px);
@@ -1968,7 +2294,7 @@ p.search-box {
 					background: #ffffff;
 					border-radius: 13px;
 					border: 1px solid #e1e1e1;
-					box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.09);
+					// box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.09);
 				}
 
 				&-title {
@@ -1979,7 +2305,6 @@ p.search-box {
 				}
 
 				.everest-forms-panel-field {
-
 					input,
 					textarea,
 					select {
@@ -2013,7 +2338,6 @@ p.search-box {
 }
 
 .everest-forms_page_evf-builder {
-
 	.everest-forms-add-fields-group,
 	.everest-forms-field-option-group {
 		.handlediv {
@@ -2152,33 +2476,81 @@ p.search-box {
 		}
 
 		.everest-forms-nav-wrapper {
-			background-color: $everestforms;
+			background: #fff;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
-			padding-left: 24px;
+			height: 70px;
+			padding: 0 20px 0 24px;
+			border-bottom: 1px solid #e1e1e1;
 
-			.everest-forms-logo {
-				display: flex;
-				align-items: center;
-				border-right: 1px solid #e2e2e2;
-				padding: 6px 24px 6px 0;
-				margin-right: 24px;
+			// .everest-forms-logo {
+			// 	display: flex;
+			// 	align-items: center;
+			// 	border-right: 1px solid #e2e2e2;
+			// 	padding: 6px 24px 6px 0;
+			// 	margin-right: 24px;
 
-				img {
-					width: 40px;
-					height: 40px;
+			// 	img {
+			// 		width: 40px;
+			// 		height: 40px;
+			// 	}
+			// }
+
+			.everest-forms-back-button-wrapper {
+				align-content: center;
+				margin-right: 16px;
+
+				.back-button {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					position: relative;
+
+					&::before {
+						content: '';
+						background: #f4f4f4;
+						position: absolute;
+						width: 32px;
+						height: 32px;
+						top: 50%;
+						left: 50%;
+						border-radius: 4px;
+						z-index: 0;
+						-ms-transform: translate(-50%, -50%);
+						transform: translate(-50%, -50%);
+						opacity: 0;
+						transition: all 0.3s ease-in-out;
+					}
+
+					svg {
+						width: 20px;
+						height: 20px;
+						fill: #383838;
+						position: relative;
+					}
+
+					&:hover {
+						&::before {
+							opacity: 1;
+						}
+					}
 				}
 			}
 
 			.everest-forms-btn {
 				&:focus {
-					box-shadow: 0 0 0 3px adjust-color($everestforms, $saturation: 39%, $lightness: +18%);
+					color: #383838;
+					// box-shadow: 0 0 0 3px
+					// adjust-color($everestforms, $saturation: 39%, $lightness: +18%);
 				}
 			}
 
 			.evf-forms-nav-right {
-				padding: 21px 30px 19px;
+				box-sizing: border-box;
+				height: 100%;
+				padding: 0;
+				align-content: center;
 				margin-left: auto;
 
 				.evf-shortcode-field {
@@ -2192,6 +2564,9 @@ p.search-box {
 						padding: 4px 10px;
 						line-height: 1.25;
 						border-radius: 3px 0 0 3px;
+						background: none;
+						border: 1px solid #e1e1e1;
+						font-size: 14px;
 					}
 
 					button {
@@ -2200,7 +2575,9 @@ p.search-box {
 						height: 36px;
 						margin-left: -4px;
 						border-radius: 0 3px 3px 0;
-						background-color: lighten($everestforms, 7%);
+						// border: 1px solid #e1e1e1;
+						// border-left: none;
+						background-color: #f6f3fa;
 
 						&.copy-shortcode {
 							//  font-size: 16px;
@@ -2216,9 +2593,9 @@ p.search-box {
 							}
 
 							svg {
-								width: 24px;
-								height: 24px;
-								fill: $color-white;
+								width: 18px;
+								height: 18px;
+								fill: #383838;
 								margin-top: 4px;
 							}
 						}
@@ -2232,7 +2609,12 @@ p.search-box {
 				.everest-forms-embed-button {
 					margin-left: 6px;
 					vertical-align: middle;
-					background: #f4f4f4;
+					background: none;
+					font-size: 14px;
+					color: #222;
+					border: 1px solid #e1e1e1;
+					border-radius: 4px;
+					min-height: 36px;
 
 					&:active {
 						color: #494d50;
@@ -2243,7 +2625,8 @@ p.search-box {
 					}
 
 					&:hover {
-						background: rgba(255, 255, 255, 0.9);
+						background: #f6f3fa;
+						color: #7545bb;
 					}
 
 					&.processing {
@@ -2259,12 +2642,13 @@ p.search-box {
 					cursor: pointer;
 					min-height: 36px;
 					color: $color-white;
-					background: $green;
+					background: #7545bb;
 					margin-left: 10px;
 					position: relative;
 					display: inline-block;
 					vertical-align: middle;
-					text-transform: uppercase;
+					text-transform: capitalize;
+					font-size: 15px;
 
 					&.processing {
 						width: 75px;
@@ -2273,7 +2657,8 @@ p.search-box {
 						transition: all 0.35s ease 0s;
 
 						&:focus {
-							box-shadow: 0 0 0 2px adjust-color($everestforms, $saturation: 39%, $lightness: +18%);
+							box-shadow: 0 0 0 2px
+								adjust-color($everestforms, $saturation: 39%, $lightness: +18%);
 						}
 					}
 
@@ -2296,19 +2681,22 @@ p.search-box {
 					}
 
 					&:hover {
-						background: darken($green, 10%);
+						background: #5317aa;
 					}
 				}
 
 				.everest-forms-preview-button,
 				.everest-forms-show-entries-btn {
-					background: $color-white;
+					background: none;
 					margin-left: 10px;
 					display: inline-block;
 					vertical-align: middle;
+					font-size: 14px;
+					color: #222222;
+					border: 1px solid #e1e1e1;
 
 					&:hover {
-						background: transparentize($color-white, 0.1);
+						background: #eee8f7;
 					}
 				}
 
@@ -2328,7 +2716,8 @@ p.search-box {
 			}
 
 			.evf-nav-tab-wrapper {
-				gap: 4px;
+				gap: 10px;
+				overflow: unset !important;
 			}
 		}
 
@@ -2579,8 +2968,12 @@ p.search-box {
 				}
 
 				&:has(.evf-conditional-confirmation-body[style*='display: none;']),
-				&:has(.evf-field-confirmation-conditional-container[style*='display: none;']),
-				&:has(.evf-conditional-confirmation-active-toggle[style*='display: none;']) {
+				&:has(
+						.evf-field-confirmation-conditional-container[style*='display: none;']
+					),
+				&:has(
+						.evf-conditional-confirmation-active-toggle[style*='display: none;']
+					) {
 					min-height: unset;
 
 					.evf-content-section-title {
@@ -2657,7 +3050,7 @@ p.search-box {
 					height: calc(100vh - 105px);
 					position: relative;
 					background-color: #ffff;
-					border-right: 1px solid $color_gray-lighten;
+					border-right: 1px solid #e1e1e1;
 
 					@media screen and (max-width: 1226px) {
 						height: calc(100vh - 180px);
@@ -2671,7 +3064,7 @@ p.search-box {
 						bottom: 100px;
 						border-style: solid;
 						border-width: 1px 1px 1px 0px;
-						border-color: #cdd0d8;
+						border-color: #e1e1e1;
 						border-radius: 0 3px 3px 0;
 						z-index: 1;
 						cursor: pointer;
@@ -2823,6 +3216,7 @@ p.search-box {
 						text-align: center;
 						background-color: #fbfbfd;
 						line-height: 150%;
+						max-height: fit-content;
 
 						.dashicons {
 							display: block;
@@ -2860,7 +3254,7 @@ p.search-box {
 
 							&::before {
 								content: '';
-								background-image: url(../images/icons/evf-pro-icon.png);
+								background-image: url(../images/icons/everest-form-pro-icon.png);
 								background-repeat: no-repeat;
 								background-position: center;
 								background-size: 100%;
@@ -2883,7 +3277,6 @@ p.search-box {
 							}
 
 							svg {
-
 								.cls-1,
 								.cls-2,
 								.cls-3 {
@@ -2920,7 +3313,6 @@ p.search-box {
 							z-index: 99999;
 
 							svg {
-
 								.cls-1,
 								.cls-2,
 								.cls-3 {
@@ -2932,7 +3324,6 @@ p.search-box {
 
 					.evf-setting--checkbox,
 					.evf-field-option--checkbox {
-
 						input,
 						label {
 							width: auto;
@@ -2954,7 +3345,7 @@ p.search-box {
 						.everest-forms-border-container {
 							.everest-forms-field-option-row {
 								&.everest-forms-field-option-row-date_format {
-									>.inline {
+									> .inline {
 										margin-left: 0;
 										margin-right: 10px;
 
@@ -3044,9 +3435,12 @@ p.search-box {
 
 							// Email/Password Confirmation.
 							&.everest-forms-confirm-disabled,
-							&.everest-forms-field-option-email:not(.everest-forms-confirm-enabled),
-							&.everest-forms-field-option-password:not(.everest-forms-confirm-enabled) {
-
+							&.everest-forms-field-option-email:not(
+									.everest-forms-confirm-enabled
+								),
+							&.everest-forms-field-option-password:not(
+									.everest-forms-confirm-enabled
+								) {
 								.everest-forms-field-option-row-sublabel_hide,
 								.everest-forms-field-option-row-confirmation_placeholder {
 									display: none;
@@ -3054,7 +3448,6 @@ p.search-box {
 							}
 
 							&-group {
-
 								&-basic,
 								&-advanced,
 								&-conditionals,
@@ -3073,7 +3466,7 @@ p.search-box {
 
 									&.open {
 										.everest-forms-field-option-group-toggle {
-											background: #f6f7f9;
+											// background: #f6f7f9;
 											border-bottom: 1px solid #e1e1e1;
 										}
 									}
@@ -3098,7 +3491,6 @@ p.search-box {
 						}
 
 						.everest-forms-field-option-group {
-
 							&-basic,
 							&-advanced,
 							&-conditionals,
@@ -3147,10 +3539,13 @@ p.search-box {
 						font-size: 14px;
 						font-weight: 600;
 						color: $color_gray-dark;
-						background-color: adjust-color($color_gray-more-lighten,
-								$saturation: -1,
-								$lightness: +2);
-						border-bottom: 1px solid $color_gray-lighten;
+						// background-color: adjust-color(
+						// 	$color_gray-more-lighten,
+						// 	$saturation: -1,
+						// 	$lightness: +2
+						// );
+						background-color: none;
+						border-bottom: 1px solid #e1e1e1;
 						position: relative;
 						transition: all 0.3s ease-in-out;
 
@@ -3438,7 +3833,6 @@ p.search-box {
 				}
 
 				.everest-forms-field-option-date-time {
-
 					.format-selected-date .everest-forms-time,
 					.format-selected-time .everest-forms-date {
 						display: none;
@@ -3462,7 +3856,6 @@ p.search-box {
 				}
 
 				.everest-forms-field-option-address {
-
 					.default,
 					.placeholder {
 						width: 44%;
@@ -3507,6 +3900,7 @@ p.search-box {
 					display: flex;
 					position: relative;
 					margin-bottom: 15px;
+					padding: 20px !important;
 					background-color: transparent;
 					border: 1px solid transparent;
 					transition:
@@ -3629,7 +4023,7 @@ p.search-box {
 								z-index: -1;
 							}
 
-							>span {
+							> span {
 								color: $color_gray-base;
 								display: block;
 							}
@@ -3699,6 +4093,7 @@ p.search-box {
 						transition:
 							0.5s border,
 							0.5s background-color;
+						text-align: left;
 
 						&.evf-hover {
 							&.evf-item-hover {
@@ -3786,6 +4181,7 @@ p.search-box {
 							justify-content: center;
 							position: relative;
 							border: 1px dashed $color-gray-light;
+							border-radius: 4px;
 
 							&::before {
 								content: '\f132';
@@ -3800,7 +4196,6 @@ p.search-box {
 				}
 
 				.everest-forms-field-payment-single {
-
 					.widefat,
 					.item-price-hidden {
 						display: none;
@@ -3974,7 +4369,6 @@ p.search-box {
 					}
 
 					input {
-
 						&[type='text'],
 						&[type='email'] {
 							margin-bottom: 5px;
@@ -4254,6 +4648,8 @@ p.search-box {
 				color: #222;
 				display: block;
 				font-weight: 500;
+				max-width: 300px;
+				width: 100%;
 
 				i {
 					color: $color_gray-light;
@@ -4268,7 +4664,6 @@ p.search-box {
 				}
 
 				input {
-
 					&[type='checkbox'],
 					&[type='radio'] {
 						margin-right: 10px;
@@ -4315,7 +4710,7 @@ p.search-box {
 
 			input:not(.ed_button),
 			textarea:not(.wp-editor-area) {
-				color: $color_gray-base;
+				color: #222222;
 
 				&::placeholder {
 					color: $color_gray-light;
@@ -4352,9 +4747,19 @@ p.search-box {
 			}
 
 			.evf-grid-lists {
-				margin-left: -1.5%;
-				margin-right: 1.5%;
-				background-color: $color_gray-light-skin;
+				width: 100%;
+				display: flex;
+				text-align: center;
+				box-sizing: border-box;
+				justify-content: center;
+				border: 1px solid transparent;
+				border-radius: 4px;
+				transition: all 0.3s ease-in;
+				border-left: 0;
+				gap: 24px;
+				// margin-left: -1.5%;
+				// margin-right: 1.5%;
+				background-color: transparent;
 				display: flex;
 
 				.evf-grid-lists-item {
@@ -4401,7 +4806,10 @@ p.search-box {
 			.everest-forms-panel-field {
 				position: relative;
 				margin-bottom: 20px;
-				max-width: 740px;
+				max-width: 100%;
+				// display: flex;
+				align-items: baseline;
+				gap: 30px;
 
 				&.everest-forms-panel-field-toggle {
 					display: flex;
@@ -4811,10 +5219,9 @@ p.search-box {
 			color: $color_gray-normal;
 
 			.evf-icon {
-				color: inherit;
+				color: #6b6b6b;
 				display: block;
-				// font-size: 32px;
-				font-size: 28px;
+				font-size: 26px;
 				text-align: center;
 				margin-bottom: 6px;
 				padding: 0;
@@ -4847,11 +5254,11 @@ p.search-box {
 
 		.evf-confirmation-wrap,
 		.everest-forms-border-container {
-			border: 1px solid #e9e9e9;
+			border: 1px solid #e1e1e1;
 			border-radius: 4px;
 			padding: 18px 22px 6px;
 			margin-bottom: 20px;
-			max-width: 740px;
+			max-width: 100%;
 
 			&:last-child {
 				margin-bottom: 0;
@@ -4971,7 +5378,7 @@ p.search-box {
 					padding: 28px 32px;
 					border-radius: 9px;
 					border: 1px solid #e1e1e1;
-					box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.09);
+					// box-shadow: 0px 7px 29px 0px rgba(100, 100, 111, 0.09);
 				}
 
 				.evf-content-sms-notifications-settings {
@@ -5005,7 +5412,7 @@ p.search-box {
 						padding: 18px 22px 24px;
 						// border: 1px solid $color_gray-lighten;
 						border: 1px solid #e2e2e2;
-						max-width: 740px;
+						max-width: 100%;
 
 						.everest-forms-email-name {
 							background: transparent;
@@ -5048,18 +5455,18 @@ p.search-box {
 					align-items: center;
 					flex-direction: row-reverse;
 					position: relative;
-					margin-bottom: 10px;
+					margin-bottom: 32px;
 
 					.evf-icon {
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						width: 32px;
-						height: 32px;
+						width: 38px;
+						height: 38px;
 						cursor: pointer;
 						border-radius: 3px;
-						color: $color_gray-normal;
-						background: $color_gray-more-lighten;
+						color: #7545bb;
+						background: #f6f3fa;
 
 						&::after {
 							content: '';
@@ -5074,9 +5481,9 @@ p.search-box {
 					}
 
 					.everest-forms-name-input {
-						font-size: 1.3em;
-						font-weight: 600;
-						height: 32px;
+						font-size: 20px;
+						font-weight: 400;
+						height: 38px;
 						border: none;
 						margin: 0;
 						box-shadow: none;
@@ -5088,7 +5495,7 @@ p.search-box {
 						&.everst-forms-name-editing {
 							pointer-events: all;
 
-							&+.evf-icon {
+							& + .evf-icon {
 								background: $everestforms;
 								color: $color-white;
 								border-radius: 4px 0 0 4px;
@@ -5097,6 +5504,7 @@ p.search-box {
 									top: 0;
 									right: 0;
 									border: 1px solid $everestforms;
+									height: 36px;
 								}
 							}
 						}
@@ -5110,6 +5518,7 @@ p.search-box {
 				.evf-admin-field-wrapper {
 					cursor: move;
 					position: relative;
+					gap: 20px;
 
 					.evf-sortable-placeholder {
 						background-color: transparentize($green, 0.95);
@@ -5216,23 +5625,23 @@ p.search-box {
 				font-weight: 500;
 				text-align: center;
 				color: $color_gray-dark;
-				background: $color_gray-more-lighten;
-				border-bottom: 1px solid $color_gray-lighten;
+				background: #f6f7f9;
+				// border-bottom: 1px solid $color_gray-lighten;
 
 				&.active {
 					background: $color-white;
-					color: $evf_primary-color;
-					border-bottom: 1px solid transparent;
+					color: #7545bb;
+					border-top: 3px solid #7545bb;
+					border-bottom: none;
 				}
 
 				&:first-child {
-					border-right: 1px solid $color_gray-lighten;
+					// border-right: 1px solid $color_gray-lighten;
 				}
 			}
 		}
 
 		.everest-forms-panel-sidebar {
-
 			.everest-forms-add-fields,
 			.everest-forms-field-options {
 				background-color: #ffff;
@@ -5437,7 +5846,6 @@ p.search-box {
 
 		// Ignore nested inputs.
 		table {
-
 			select,
 			textarea,
 			input[type='text'],
@@ -5495,7 +5903,7 @@ p.search-box {
 			color: $color_gray-base;
 		}
 
-		th label+.everest-forms-help-tip {
+		th label + .everest-forms-help-tip {
 			position: absolute;
 			margin: 0;
 			right: 0;
@@ -5607,8 +6015,7 @@ p.search-box {
 
 		.everest-forms-integrations {
 			border-radius: 3px;
-			background: #fbfafc;
-			border: 1px solid #eee8f7;
+			border: 1px solid #e1e1e1;
 			padding: 16px 20px;
 			display: flex;
 			flex-wrap: wrap;
@@ -5941,7 +6348,7 @@ p.search-box {
 .everest-forms-export-form,
 .everest-forms-form-migrator {
 	background: $color-white;
-	max-width: 700px;
+	max-width: 100%;
 	padding: 20px;
 	margin-top: 20px;
 	box-shadow: 1px 3px 10px transparentize($color_gray-base, 0.95);
@@ -6149,21 +6556,42 @@ table.wp-list-table {
 		color: #999;
 	}
 
-	.column-date {
+	.column-title {
+		width: 25% !important;
+		.locate-form {
+			margin: 2px 0 0;
+			font-size: 11px;
+			color: #666;
+		}
+	}
+
+	.column-tags {
 		width: 12%;
 	}
 
-	.column-entries {
-		width: 74px;
-		text-align: center;
-	}
-
-	.column-actions {
-		width: 175px;
+	.column-shortcode {
+		width: 25%;
 	}
 
 	.column-enabled {
-		width: 25px;
+		width: 10%;
+		padding-left: 32px !important;
+	}
+
+	.column-date {
+		width: 10%;
+	}
+
+	.column-author {
+		width: 10%;
+	}
+
+	.column-entries {
+		width: 8%;
+	}
+
+	.column-actions {
+		width: 25%;
 	}
 
 	.column-status img {
@@ -6195,15 +6623,26 @@ table.wp-list-table {
 
 	.column-tags {
 		.evf-form-tags {
-			border: 1px solid #2271b1;
-			padding: 4px 8px;
+			border: none;
+			background: none;
+			padding: 0 8px;
+			color: #7545bb;
+			// border: 1px solid #7545bb;
 			line-height: 16px;
 			min-height: unset;
 			vertical-align: middle;
 			margin-bottom: 6px;
+			font-size: 13px;
+			text-decoration: none;
+			text-align: center;
+
+			&::before {
+				margin-right: 3px;
+				content: '#';
+			}
 
 			&:hover {
-				border-color: #0a4b78;
+				text-decoration: underline;
 			}
 		}
 	}
@@ -6231,7 +6670,6 @@ table.wp-list-table {
 	}
 
 	#poststuff {
-
 		#everest-forms-entry-fields,
 		#everest-forms-entry-details,
 		#everest-forms-entry-actions,
@@ -6253,7 +6691,6 @@ table.wp-list-table {
 
 				.everest-forms-edit-entry-field {
 					.evf-field {
-
 						input[type='text'],
 						input[type='date'],
 						input[type='date'],
@@ -6525,17 +6962,18 @@ img.tips {
 		border: none;
 		flex: 1 1 auto;
 		border-radius: 3px;
-		background: #333;
+		border: 1px solid #e1e1e1;
+		background: #fff;
 		margin: 0 !important;
 
 		.tooltipster-content {
-			color: $color-white;
+			color: #222;
 			overflow: auto;
-			font-size: 0.8em;
-			max-width: 150px;
+			font-size: 13px;
+			max-width: 200px;
 			max-height: 100%;
 			text-align: center;
-			padding: 0.618em 1em;
+			padding: 16px 20px;
 			box-sizing: border-box;
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
@@ -6763,9 +7201,9 @@ img.ui-datepicker-trigger {
 
 	&.select2-container--focus {
 		.select2-selection--multiple {
-			border-color: #5b9dd9;
-			box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-			outline: 2px solid transparent;
+			border-color: #7545bb;
+			// box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+			outline: 1px solid #7545bb;
 		}
 	}
 }
@@ -6892,7 +7330,8 @@ img.ui-datepicker-trigger {
 			right: 1px;
 			height: 28px;
 			width: 23px;
-			background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+			background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+				no-repeat right 5px top 55%;
 			background-size: 16px 16px;
 
 			@media only screen and (max-width: 782px) {
@@ -6908,21 +7347,23 @@ img.ui-datepicker-trigger {
 	&.select2-container--focus .select2-selection--single,
 	&.select2-container--open .select2-selection--single,
 	&.select2-container--open .select2-selection--multiple {
-		border-color: #007cba;
-		box-shadow: 0 0 0 1px #007cba;
+		border-color: #7545bb;
+		// box-shadow: 0 0 0 1px #007cba;
 	}
 
 	.selection {
 		.select2-selection--multiple {
-			min-height: 36px;
+			//Tags
+			max-height: max-content;
+			min-height: 38px;
 			line-height: 1.5;
 			border-radius: 4px;
-			border-color: #7e8993;
+			border-color: #e1e1e1;
 			width: 100%;
 
 			.select2-selection__rendered {
 				.select2-selection__choice {
-					background: #ededed;
+					background: #f4f4f4;
 					border-radius: 3px;
 					gap: 4px;
 					padding: 6px 10px 6px 8px;
@@ -6979,41 +7420,43 @@ img.ui-datepicker-trigger {
 		light: #04a4cc,
 	);
 
-@each $name, $color in $wp_admin_colors {
-	&-#{$name} {
-		.select2-dropdown {
-			border-color: $color;
-		}
+	@each $name, $color in $wp_admin_colors {
+		&-#{$name} {
+			.select2-dropdown {
+				border-color: $color;
+			}
 
-		.select2-dropdown--below {
-			box-shadow:
-				0 0 0 1px $color,
-				0 2px 1px rgba(0, 0, 0, 0.1);
-		}
+			.select2-dropdown--below {
+				box-shadow:
+					0 0 0 1px $color,
+					0 2px 1px rgba(0, 0, 0, 0.1);
+			}
 
-		.select2-dropdown--above {
-			box-shadow:
-				0 0 0 1px $color,
-				0 -2px 1px rgba(0, 0, 0, 0.1);
-		}
+			.select2-dropdown--above {
+				box-shadow:
+					0 0 0 1px $color,
+					0 -2px 1px rgba(0, 0, 0, 0.1);
+			}
 
-		.select2-selection--single .select2-selection__rendered:hover {
-			color: $color;
-		}
+			.select2-selection--single .select2-selection__rendered:hover {
+				color: #7545bb;
+			}
 
-		.select2-container.select2-container--focus .select2-selection--single,
-		.select2-container.select2-container--open .select2-selection--single,
-		.select2-container.select2-container--open .select2-selection--multiple {
-			border-color: $color;
-			box-shadow: 0 0 0 1px $color;
-		}
+			.select2-container.select2-container--focus .select2-selection--single,
+			.select2-container.select2-container--open .select2-selection--single,
+			.select2-container.select2-container--open .select2-selection--multiple {
+				border-color: #7545bb;
+				box-shadow: 0 0 0 1px #7545bb;
+			}
 
-		.select2-container--default .select2-results__option--highlighted[aria-selected],
-		.select2-container--default .select2-results__option--highlighted[data-selected] {
-			background-color: $color;
+			.select2-container--default
+				.select2-results__option--highlighted[aria-selected],
+			.select2-container--default
+				.select2-results__option--highlighted[data-selected] {
+				background-color: $color;
+			}
 		}
 	}
-}
 }
 
 .everest-forms {
@@ -7022,15 +7465,15 @@ img.ui-datepicker-trigger {
 			.select2-container--default {
 				&.select2-container--focus {
 					.select2-selection--multiple {
-						border-color: #5b9dd9;
-						box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-						outline: 2px solid transparent;
+						border-color: #7545bb;
+						// box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+						// outline: 2px solid transparent;
 					}
 				}
 			}
 
 			.select2-container {
-				min-width: 350px !important;
+				// min-width: 350px !important;
 			}
 		}
 	}
@@ -7175,7 +7618,6 @@ img.ui-datepicker-trigger {
 								}
 
 								a {
-
 									&.add,
 									&.remove {
 										width: 40px;
@@ -7246,7 +7688,6 @@ img.ui-datepicker-trigger {
 	   * Optimisation for screens 600px and smaller.
 	   */
 @media screen and (max-width: 600px) {
-
 	.everest-forms_page_evf-builder,
 	.everest-forms_page_evf-settings {
 		.everest-forms {
@@ -7297,7 +7738,6 @@ img.ui-datepicker-trigger {
 						position: relative;
 
 						.evf-admin-grid {
-
 							&.evf-grid-1,
 							&.evf-grid-2,
 							&.evf-grid-3,
@@ -7767,7 +8207,7 @@ img.ui-datepicker-trigger {
 				}
 
 				.everest_forms_hide_container {
-					>p {
+					> p {
 						padding-left: 20px;
 						padding-right: 20px;
 					}
@@ -7877,7 +8317,7 @@ img.ui-datepicker-trigger {
 	margin: 0;
 	position: relative;
 	vertical-align: middle;
-	width: 350px !important;
+	width: 350px;
 
 	.select2-selection--single {
 		box-sizing: border-box;
@@ -7905,8 +8345,8 @@ img.ui-datepicker-trigger {
 			line-height: 32px;
 			padding-right: 24px;
 
-			&:hover {
-				color: #007cba;
+			&:hover &:active {
+				color: #7545bb;
 			}
 		}
 
@@ -7922,7 +8362,8 @@ img.ui-datepicker-trigger {
 			right: 1px;
 			height: 28px;
 			width: 23px;
-			background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+			background: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+				no-repeat right 5px top 55%;
 			background-size: 16px 16px;
 			right: 3px;
 			height: 30px;
@@ -8228,8 +8669,9 @@ img.ui-datepicker-trigger {
 .select2-container--default {
 	.select2-selection--single {
 		background-color: #fff;
-		border: 1px solid #aaa;
+		border: 1px solid #e1e1e1;
 		border-radius: 4px;
+		min-height: 38px;
 
 		.select2-selection__rendered {
 			color: #444;
@@ -8249,7 +8691,7 @@ img.ui-datepicker-trigger {
 		.select2-selection__arrow {
 			height: 26px;
 			position: absolute;
-			top: 1px;
+			top: 6px;
 			right: 1px;
 			width: 20px;
 
@@ -8283,7 +8725,7 @@ img.ui-datepicker-trigger {
 
 			li {
 				list-style: none;
-				margin: 5px 5px 0 0;
+				// margin: 5px 5px 0 0;
 
 				&::before {
 					content: '';
@@ -8347,7 +8789,7 @@ img.ui-datepicker-trigger {
 	}
 
 	.select2-results {
-		>.select2-results__options {
+		> .select2-results__options {
 			max-height: 200px;
 			overflow-y: auto;
 		}
@@ -8410,8 +8852,8 @@ img.ui-datepicker-trigger {
 	}
 
 	.select2-results__option--highlighted[data-selected] {
-		color: #fff;
-		background-color: #0073aa;
+		color: #222;
+		background-color: #eee8f7;
 	}
 
 	.select2-results__group {
@@ -8527,7 +8969,7 @@ img.ui-datepicker-trigger {
 		background-repeat: repeat-x;
 
 		&:focus {
-			border: 1px solid #0073aa;
+			border: 1px solid $primary-color;
 		}
 
 		.select2-selection__rendered {
@@ -8648,7 +9090,7 @@ img.ui-datepicker-trigger {
 	}
 
 	.select2-results {
-		>.select2-results__options {
+		> .select2-results__options {
 			max-height: 200px;
 			overflow-y: auto;
 		}
@@ -8874,7 +9316,6 @@ img.ui-datepicker-trigger {
 					display: contents;
 
 					&:hover {
-
 						&::before,
 						&::after {
 							transform: translate(-50%, -50%) scale(1.1);
@@ -8953,7 +9394,7 @@ img.ui-datepicker-trigger {
 					max-width: 800px;
 					border: 1px solid transparent;
 
-					>div>label {
+					> div > label {
 						padding: 0 10px;
 						margin: 0 0 10px -10px;
 						background: $color-white;
@@ -9069,7 +9510,6 @@ img.ui-datepicker-trigger {
 
 		// Likert-table and Scale rating table
 		table {
-
 			&.everest-forms-likert-table,
 			&.everest-froms-likert-field-preview,
 			&.everest-forms-scale-rating-table {
@@ -9108,7 +9548,7 @@ img.ui-datepicker-trigger {
 				}
 
 				input[type='radio'] {
-					+label {
+					+ label {
 						&::before {
 							border-radius: 50%;
 						}
@@ -9159,7 +9599,6 @@ img.ui-datepicker-trigger {
 						}
 
 						&:nth-child(even) {
-
 							th,
 							td {
 								background: $color_gray-light-skin;
@@ -9537,7 +9976,6 @@ img.ui-datepicker-trigger {
 		tbody {
 			tr {
 				&:nth-child(even) {
-
 					th,
 					td {
 						background: $color_gray-light-skin;
@@ -9553,7 +9991,6 @@ img.ui-datepicker-trigger {
 		}
 
 		&.evf-likert-chart-table {
-
 			th,
 			td {
 				text-align: center;
@@ -9792,13 +10229,14 @@ img.ui-datepicker-trigger {
 //General settings
 .everest-forms-settings {
 	display: flex;
-	background: #f1f1f1;
+	background: #f4f4f4 !important;
 	min-height: 100vh;
 
 	.everest-forms-settings-container {
 		flex: 1;
 		padding: 20px;
-		background: #ffffff;
+		// background: inherit;
+		// background-color: #f4f4f4 !important;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
 		.everest-forms-options-header {
@@ -9818,7 +10256,7 @@ img.ui-datepicker-trigger {
 
 			.everest-forms-global-settings {
 				display: flex;
-				align-items: center;
+				align-items: flex-start;
 				margin-bottom: 10px;
 
 				@media screen and (max-width: 1260px) {
@@ -9873,14 +10311,14 @@ img.ui-datepicker-trigger {
 .everest-forms_page_evf-settings,
 .everest-forms_page_evf-tools {
 	.everest-forms {
-		padding: 20px;
+		// padding: 20px;
 		overflow: hidden;
 	}
 }
 
 .everest-forms {
 	.everest-forms-settings {
-		padding: 0 !important;
+		padding: 24px !important;
 		gap: 24px;
 		background: transparent;
 
@@ -9889,11 +10327,12 @@ img.ui-datepicker-trigger {
 		}
 
 		&-wrapper {
-			box-shadow: 0px 6px 26px 0px rgba(10, 10, 10, 0.08);
+			// box-shadow: 0px 6px 26px 0px rgba(10, 10, 10, 0.08);
 			background: #ffffff;
 			flex: 1;
 			display: flex;
 			max-width: 100%;
+			border-radius: 8px;
 		}
 
 		&-main {
@@ -9919,12 +10358,13 @@ img.ui-datepicker-trigger {
 			display: flex;
 			flex-direction: column;
 			background: #fafafc;
-			border-right: 1px solid #ededed;
-			padding: 32px 0 20px;
+			border: 1px solid #e9e9e9;
+			padding: 0px 0 20px;
 			width: 300px;
 			overflow-x: hidden;
 			max-width: 100%;
 			transition: all 0.3s;
+			border-radius: 8px 0 0 8px;
 
 			@media screen and (max-width: 1300px) {
 				width: 220px;
@@ -9949,13 +10389,32 @@ img.ui-datepicker-trigger {
 			&--nav {
 				height: 100%;
 
+				// Tab item container
+				.evf-nav__tab-item {
+					display: flex;
+					flex-direction: column;
+
+					// Rotate arrow when active and has sub-sections
+					&:has(.evf-scroll-ui) {
+						.nav-tab-active {
+							.evf-nav__link-label svg {
+								transform: rotate(90deg);
+							}
+						}
+					}
+
+					.evf-scroll-ui {
+						border-left: 4px solid transparent;
+						background: #ffffff;
+					}
+				}
+
 				.evf-nav-tab-wrapper {
 					display: flex;
 					flex-direction: column;
 					gap: 1px;
 					background: transparent;
 					position: relative;
-					// height: 100%;
 					overflow: unset !important;
 
 					.evf-nav__link {
@@ -9963,7 +10422,7 @@ img.ui-datepicker-trigger {
 						display: flex;
 						padding: 16px 20px;
 						align-items: center;
-						gap: 16px;
+						gap: 20px;
 						min-height: 54px;
 						border-bottom: 1px solid #ededed;
 						position: relative;
@@ -10016,7 +10475,7 @@ img.ui-datepicker-trigger {
 							opacity: 1;
 							transition: all 0.4s ease-in-out;
 
-							>p {
+							> p {
 								width: 100%;
 								margin: 0;
 								font-size: 15px;
@@ -10029,6 +10488,11 @@ img.ui-datepicker-trigger {
 							svg {
 								width: 20px;
 								height: 20px;
+								transition: transform 0.3s ease-in-out;
+
+								path {
+									transition: stroke 0.3s ease-in-out;
+								}
 							}
 						}
 
@@ -10036,6 +10500,7 @@ img.ui-datepicker-trigger {
 						&.nav-tab-active {
 							background: #ffffff;
 							margin-bottom: 0;
+							// gap: 24px;
 
 							&::before {
 								opacity: 1;
@@ -10051,7 +10516,7 @@ img.ui-datepicker-trigger {
 								}
 
 								&-label {
-									>p {
+									> p {
 										color: #7545bb;
 									}
 
@@ -10112,7 +10577,9 @@ img.ui-datepicker-trigger {
 
 							.evf-nav-icon {
 								img {
-									filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7487%) hue-rotate(137deg) brightness(89%) contrast(114%);
+									filter: brightness(0) saturate(100%) invert(100%) sepia(0%)
+										saturate(7487%) hue-rotate(137deg) brightness(89%)
+										contrast(114%);
 								}
 							}
 						}
@@ -10121,6 +10588,104 @@ img.ui-datepicker-trigger {
 					.ps__rail {
 						&-x {
 							display: none;
+						}
+					}
+				}
+
+				.evf-scroll-ui {
+					max-height: 300px;
+					overflow-y: auto;
+					padding: 0;
+					margin-top: 0;
+					animation: slideDown 0.3s ease;
+
+					&::-webkit-scrollbar {
+						width: 4px;
+					}
+
+					&::-webkit-scrollbar-track {
+						background: transparent;
+					}
+
+					&::-webkit-scrollbar-thumb {
+						background: #d1d5db;
+						border-radius: 2px;
+					}
+
+					&::-webkit-scrollbar-thumb:hover {
+						background: #9ca3af;
+					}
+				}
+
+				.evf-subsections {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+					background: transparent;
+					position: relative;
+
+					&::before {
+						content: '';
+						position: absolute;
+						left: 27px;
+						top: 27px;
+						width: 2px;
+						height: calc(100% - 16px - 36px);
+						background: #e1e1e1;
+						z-index: 1;
+					}
+
+					li {
+						margin: 0;
+						padding: 0;
+						position: relative;
+
+						a {
+							display: flex;
+							align-items: center;
+							padding: 12px 20px 12px 52px;
+							text-decoration: none;
+							color: #6b7280;
+							font-size: 14px;
+							font-weight: 500;
+							line-height: 21px;
+							position: relative;
+							background: transparent;
+							transition: color 0.2s ease;
+
+							&::before {
+								content: '';
+								position: absolute;
+								left: 24px;
+								top: 50%;
+								transform: translateY(-50%);
+								width: 10px;
+								height: 10px;
+								background: #e1e1e1;
+								border-radius: 50%;
+								z-index: 2;
+								transition: all 0.2s ease;
+							}
+
+							&.current {
+								color: #7545bb;
+								font-weight: 600;
+								&::before {
+									background: #7545bb;
+									width: 10px;
+									height: 10px;
+									left: 23px;
+								}
+							}
+
+							&:hover {
+								color: #7545bb;
+							}
+
+							&:focus {
+								outline: none;
+								box-shadow: none;
+							}
 						}
 					}
 				}
@@ -10142,24 +10707,207 @@ img.ui-datepicker-trigger {
 				}
 
 				.everest-forms-header--nav {
-					.evf-nav-tab-wrapper {
-						.evf-nav__link {
-							// display: inline-block;
+					height: 100%;
 
-							&-label {
-								// display: none;
-								opacity: 0;
+					.evf-nav__tab-item {
+						display: flex;
+						flex-direction: column;
+						position: relative;
+
+						// Add vertical line for parent items that have children
+						&:has(.evf-subsections) {
+							position: relative;
+
+							// Main vertical connecting line
+							> .evf-scroll-ui::before {
+								content: '';
+								position: absolute;
+								left: 28px;
+								top: 0;
+								bottom: 12px;
+								width: 1px;
+								background: #e1e1e1;
+								z-index: 1;
 							}
 						}
 
-						#evf-settings-collapse {
-							.evf-nav-icon {
-								img {
-									transform: rotate(180deg);
+						&:has(.evf-scroll-ui) {
+							.nav-tab-active {
+								.evf-nav__link-label svg {
+									transform: rotate(90deg);
+								}
+							}
+						}
+
+						.evf-scroll-ui {
+							border-left: 4px solid transparent;
+							background: #ffffff;
+							position: relative;
+						}
+					}
+
+					.evf-subsections {
+						list-style: none;
+						margin: 0;
+						padding: 0;
+						background: transparent;
+						position: relative;
+
+						li {
+							margin: 0;
+							padding: 0;
+							position: relative;
+
+							// Vertical connecting line
+							&::before {
+								content: '';
+								position: absolute;
+								left: 28px;
+								top: 0;
+								bottom: 0;
+								width: 1px;
+								background: #dcdcdc;
+								z-index: 1;
+							}
+
+							// Hide vertical line after last item
+							&:last-child::before {
+								bottom: 50%;
+							}
+
+							// Horizontal line connecting to text
+							&::after {
+								content: '';
+								position: absolute;
+								left: 28px;
+								top: 50%;
+								transform: translateY(-50%);
+								width: 16px;
+								height: 1px;
+								background: #dcdcdc;
+								z-index: 1;
+							}
+
+							a {
+								display: flex;
+								align-items: center;
+								padding: 12px 20px 12px 52px;
+								text-decoration: none;
+								color: #6b7280;
+								font-size: 14px;
+								font-weight: 500;
+								line-height: 21px;
+								border-left: 3px solid transparent;
+								position: relative;
+								background: transparent;
+
+								&.current {
+									color: #7545bb;
+									border-left-color: #7545bb;
+									font-weight: 600;
+								}
+
+								&:focus {
+									outline: none;
+									box-shadow: none;
 								}
 							}
 						}
 					}
+
+					@media screen and (max-width: 1300px) {
+						.evf-subsections li {
+							&::before {
+								left: 24px;
+							}
+
+							&::after {
+								left: 24px;
+								width: 14px;
+							}
+
+							a {
+								padding: 10px 16px 10px 44px;
+								font-size: 13px;
+							}
+						}
+					}
+
+					@media screen and (max-width: 782px) {
+						.evf-subsections li {
+							&::before {
+								left: 20px;
+							}
+
+							&::after {
+								left: 20px;
+								width: 12px;
+							}
+
+							a {
+								padding: 10px 16px 10px 40px;
+								font-size: 13px;
+							}
+						}
+					}
+				}
+
+				// Animation for sliding down sub-sections
+				@keyframes slideDown {
+					from {
+						opacity: 0;
+						transform: translateY(-10px);
+					}
+					to {
+						opacity: 1;
+						transform: translateY(0);
+					}
+				}
+
+				// Mobile responsive
+				@media screen and (max-width: 782px) {
+					.everest-forms-header--nav {
+						.evf-subsections li a {
+							padding: 10px 16px 10px 40px;
+							font-size: 13px;
+
+							&.current::before {
+								left: 20px;
+							}
+						}
+
+						.evf-scroll-ui {
+							max-height: 250px;
+						}
+					}
+				}
+			}
+		}
+
+		@keyframes slideDown {
+			from {
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@media screen and (max-width: 782px) {
+			.everest-forms-header--nav {
+				.evf-subsections li a {
+					padding: 10px 16px 10px 40px;
+					font-size: 13px;
+
+					&.current::before {
+						left: 20px;
+					}
+				}
+
+				.evf-scroll-ui {
+					max-height: 250px;
 				}
 			}
 		}
@@ -10167,6 +10915,9 @@ img.ui-datepicker-trigger {
 		.everest-forms-settings-container {
 			padding: 32px 20px 52px 32px;
 			box-shadow: none;
+			border: 1px solid #e9e9e9;
+			border-left: none;
+			border-radius: 0 8px 8px 0;
 
 			.everest-forms-settings-main {
 				position: relative;
@@ -10190,6 +10941,13 @@ img.ui-datepicker-trigger {
 						line-height: 24px;
 						color: #383838;
 						font-weight: 500;
+					}
+				}
+
+				p {
+					a {
+						color: #2271b1;
+						text-decoration: underline !important;
 					}
 				}
 			}
@@ -10250,7 +11008,7 @@ img.ui-datepicker-trigger {
 						align-items: flex-start;
 					}
 
-					>label {
+					> label {
 						color: #383838;
 						font-size: 15px;
 						font-weight: 500;
@@ -10262,11 +11020,21 @@ img.ui-datepicker-trigger {
 						gap: 8px;
 
 						.everest-forms-help-tip {
-							width: 18px;
-							height: 18px;
+							width: 14px;
+							height: 14px;
+							transition: filter 0.3s ease;
 
 							&::after {
-								color: #999999;
+								// settings help icon
+								color: transparent;
+								background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 12a9 9 0 1 0-18 0 9 9 0 0 0 18 0m2 0c0 6.075-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1s11 4.925 11 11' fill='%23383838'/%3E%3Cpath d='M11 12V8a1 1 0 1 1 2 0v4a1 1 0 1 1-2 0m1.01 3a1 1 0 1 1 0 2H12a1 1 0 1 1 0-2z' fill='%23383838'/%3E%3C/svg%3E");
+								background-repeat: no-repeat;
+							}
+
+							&:hover::after {
+								filter: brightness(0) saturate(100%) invert(26%) sepia(77%)
+									saturate(1950%) hue-rotate(249deg) brightness(84%)
+									contrast(81%);
 							}
 						}
 					}
@@ -10293,7 +11061,7 @@ img.ui-datepicker-trigger {
 						}
 
 						fieldset {
-							>label {
+							> label {
 								font-size: 14px;
 								line-height: 22px;
 								font-weight: 400;
@@ -10329,7 +11097,7 @@ img.ui-datepicker-trigger {
 								li {
 									margin-bottom: 0;
 
-									>label {
+									> label {
 										display: flex;
 										align-items: center;
 										gap: 6px;
@@ -10348,7 +11116,7 @@ img.ui-datepicker-trigger {
 										margin-bottom: 0;
 
 										li {
-											>label {
+											> label {
 												display: flex;
 												flex-direction: row;
 												align-items: center;
@@ -10380,7 +11148,7 @@ img.ui-datepicker-trigger {
 											input[type='radio'] {
 												display: none !important;
 
-												&:checked~label {
+												&:checked ~ label {
 													background: #f6f5f8;
 													border-color: #7545bb;
 												}
@@ -10458,7 +11226,7 @@ img.ui-datepicker-trigger {
 										input {
 											display: none;
 
-											&:checked~label {
+											&:checked ~ label {
 												border: 1px solid #7545bb;
 											}
 										}
@@ -10645,7 +11413,6 @@ img.ui-datepicker-trigger {
 										display: contents;
 
 										&:hover {
-
 											&::before,
 											&::after {
 												transform: translate(-50%, -50%) scale(1.1);
@@ -10681,7 +11448,7 @@ img.ui-datepicker-trigger {
 				}
 			}
 
-			>p {
+			> p {
 				margin: 0;
 				font-size: 14px;
 				line-height: 24px;
@@ -10756,7 +11523,7 @@ everest-forms-field-option-row-rating-icon {
 		}
 
 		input:checked {
-			+label {
+			+ label {
 				color: $color-white;
 				background: $everestforms;
 				border-color: $everestforms;
@@ -10912,7 +11679,6 @@ body {
 						}
 
 						.everest-forms-tab-content {
-
 							.everest-forms-import-form,
 							.everest-forms-import-entries-wrapper,
 							.everest-forms-export-form,
@@ -11058,7 +11824,6 @@ body {
 
 							.evf-tools-export-entries {
 								.evf-tools-entries-export-options {
-
 									&-fields,
 									&-additional-info,
 									&-format,
@@ -11100,8 +11865,10 @@ body {
 
 										&-options {
 											display: grid;
-											grid-template-columns: repeat(auto-fit,
-													minmax(200px, 1fr));
+											grid-template-columns: repeat(
+												auto-fit,
+												minmax(200px, 1fr)
+											);
 											gap: 12px;
 
 											select,
@@ -11672,8 +12439,8 @@ body {
 
 #everest-forms-list-table__container {
 	background-color: #ffffff;
-	padding: 24px;
-	margin: 25px auto;
+	// padding: 24px;
+	// margin: 25px auto;
 	border-radius: 7px;
 
 	table.wp-list-table {
@@ -11693,7 +12460,6 @@ body {
 
 		thead {
 			tr {
-
 				td,
 				th {
 					border-bottom-color: #dcdcdc;
@@ -11993,7 +12759,7 @@ button#show-settings-link {
 	justify-content: space-between;
 	align-items: center;
 	gap: 20px;
-	border-bottom: 1px solid #dcdcdc;
+	// border-bottom: 1px solid #dcdcdc;
 	padding-bottom: 24px;
 	margin-bottom: 24px;
 
@@ -12200,10 +12966,21 @@ button#show-settings-link {
 	}
 }
 
-#evf-react-header-root>div {
+#evf-react-header-root > div {
 	top: 0px !important;
 }
 
 .wrap.everest-forms {
-	padding-top: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.jconfirm-buttons .evf_entries_save_action {
+	font-size: 15px;
+	font-weight: 600;
+	background-color: #7545bb;
+	color: #fff;
+	border-radius: 4px;
+	padding: 10px 20px;
+	text-transform: capitalize;
 }
