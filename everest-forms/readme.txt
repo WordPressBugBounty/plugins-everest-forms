@@ -4,15 +4,15 @@ Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 3.5.0
+Stable tag: 3.5.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-The best WordPress form builder. Create contact forms, payment forms, conversational forms, custom forms, surveys, & quizzes using drag and drop.
+AI form builder for WordPress. Build contact forms, payment forms, quiz, survey & conversational forms with built-in AI or drag & drop builder.
 
 == Description ==
 
-**AI form builder for WordPress. Build contact forms, payment forms, quiz, survey & conversational forms with built-in AI or drag & drop builder.**
+AI form builder for WordPress. Build contact forms, payment forms, quiz, survey & conversational forms with built-in AI or drag & drop builder.
 
 Everest Forms combines a drag-and-drop form builder, AI-powered form creator, payment processing, quiz builder, and survey tool, along with 40+ form fields and unlimited submissions, all in a single plugin.
 
@@ -344,6 +344,11 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/f788d7f0-ea8a-4fd5-bcae-81a5d09a476c)
 
 == Changelog ==
+
+= 3.5.1       - 15-06-2026
+* Fix 		  - Early load integration called.
+* Fix 		  - Form submission stuck on processing for forms created using ai.
+* Added 	  - Loggers in AI Form creation flow.
 
 = 3.5.0       - 15-06-2026
 * Feature 	  - Create form with AI.
