@@ -4,7 +4,7 @@ Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 7.0
 Requires PHP: 7.2
-Stable tag: 3.5.3
+Stable tag: 3.6.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -344,6 +344,11 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/f788d7f0-ea8a-4fd5-bcae-81a5d09a476c)
 
 == Changelog ==
+
+= 3.6.0       - 13-08-2026
+* Enhance 	  - Revamped Style Customizer.
+* Fix 		  - PHP warning in single entry view for coupon field values when the Coupons addon is deactivated.
+* Fix 		  - Integration "Remove Authentication" silently failing with "Connection missing" for Google Drive, Dropbox, Google Calendar, OneDrive, and Amazon S3.
 
 = 3.5.3       - 04-08-2026
 * Enhance 	  - Show active addons list in System Info.

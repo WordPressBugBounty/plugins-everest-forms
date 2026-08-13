@@ -10,12 +10,138 @@
 function evfsc_enqueue_fonts( $font_family = '' ) {
 
 	if ( ! empty( $font_family ) ) {
-		$font_url = 'https://fonts.googleapis.com/css?family=' . evf_clean( $font_family );
+		// Without an explicit weight list, Google Fonts only serves the family's single default
+		// face — every other Font Style weight the customizer offers then has no real face to
+		// use and falls back to inconsistent browser synthesis (EVF-2721). 300/400/700 match the
+		// weight options Schema::weight_options() actually offers.
+		$font_url = 'https://fonts.googleapis.com/css?family=' . evf_clean( $font_family ) . ':300,400,700';
 
 		$font_url = evf_maybe_get_local_font_url( $font_url );
 
 		wp_enqueue_style( 'everest-forms-google-fonts', $font_url, array(), EVF_VERSION, 'all' );
 	}
+}
+
+/**
+ * The Google Fonts list used by the Style Customizer, cached for a week.
+ *
+ * Single source of truth for BOTH the legacy WP-Customizer select2 control
+ * ({@see EVF_Customize_Select2_Control::get_google_fonts()}) and the v2 React panel — so the
+ * font family dropdown is identical (order, labels) in either engine and the list is fetched
+ * once, not duplicated.
+ *
+ * @since x.x.x
+ * @return array List of font objects (each exposes a `family` property), or an empty array.
+ */
+function evfsc_get_google_fonts() {
+	$google_fonts = get_transient( 'evf_google_fonts' );
+
+	if ( false === $google_fonts ) {
+		$raw_google_fonts = wp_safe_remote_get( 'https://raw.githubusercontent.com/wpeverest/google-fonts/master/google-fonts.json' );
+		$decoded          = is_wp_error( $raw_google_fonts ) ? null : json_decode( wp_remote_retrieve_body( $raw_google_fonts ) );
+		$google_fonts     = isset( $decoded->items ) ? $decoded->items : array();
+
+		// Cache a failed/empty fetch too, just for an hour instead of a week, so a blocked or
+		// offline host retries periodically rather than repeating this blocking request on
+		// every single builder page load.
+		set_transient( 'evf_google_fonts', $google_fonts, empty( $google_fonts ) ? HOUR_IN_SECONDS : WEEK_IN_SECONDS );
+	}
+
+	/** This filter is documented in addons/StyleCustomizer/includes/customize/class-evf-customize-select2-control.php */
+	$google_fonts = apply_filters( 'everest_forms_extensions_sections', $google_fonts );
+
+	return is_array( $google_fonts ) ? $google_fonts : array();
+}
+
+/**
+ * The Google Fonts as a flat list of family-name strings (order preserved).
+ *
+ * Used by the v2 REST payload to populate the Font Family dropdown; matches the legacy
+ * customizer's list exactly since it derives from {@see evfsc_get_google_fonts()}.
+ *
+ * @since x.x.x
+ * @return string[] Font family names.
+ */
+function evfsc_get_google_font_families() {
+	$families = array();
+	foreach ( evfsc_get_google_fonts() as $font ) {
+		if ( is_object( $font ) && isset( $font->family ) ) {
+			$families[] = (string) $font->family;
+		} elseif ( is_array( $font ) && isset( $font['family'] ) ) {
+			$families[] = (string) $font['family'];
+		}
+	}
+
+	// evfsc_get_google_fonts() derives its list from a live fetch to a GitHub-hosted JSON file
+	// (see there) — a third-party-maintained snapshot that can be stale (missing newer families
+	// like Inter/Manrope entirely) or, if the fetch fails/is blocked outright (offline local dev,
+	// a restrictive host), empty. Either way, always MERGE in a curated list of well-known
+	// families rather than only falling back to it when the live list is empty — a populated but
+	// incomplete snapshot needs the same guarantee. array_unique keeps the curated entry (first)
+	// on an exact-name collision; that's fine, the value is identical either way.
+	return array_values( array_unique( array_merge( evfsc_google_font_families_fallback(), $families ) ) );
+}
+
+/**
+ * Curated list of widely-used families, always merged into evfsc_get_google_font_families()'s
+ * result (not the full catalog) — guarantees these are always offered regardless of whether the
+ * live fetch succeeds, is stale, or fails outright.
+ *
+ * @return string[] Font family names.
+ */
+function evfsc_google_font_families_fallback() {
+	return array(
+		'Roboto',
+		'Open Sans',
+		'Lato',
+		'Montserrat',
+		'Poppins',
+		'Inter',
+		'Nunito',
+		'Nunito Sans',
+		'Source Sans Pro',
+		'Noto Sans',
+		'Raleway',
+		'Rubik',
+		'Work Sans',
+		'Mulish',
+		'Karla',
+		'Manrope',
+		'Quicksand',
+		'Ubuntu',
+		'PT Sans',
+		'Fira Sans',
+		'Barlow',
+		'Inconsolata',
+		'DM Sans',
+		'Josefin Sans',
+		'Cabin',
+		'Oxygen',
+		'Heebo',
+		'Hind',
+		'Titillium Web',
+		'Merriweather',
+		'Playfair Display',
+		'Lora',
+		'PT Serif',
+		'Libre Baskerville',
+		'Crimson Text',
+		'Bitter',
+		'EB Garamond',
+		'Roboto Slab',
+		'Roboto Condensed',
+		'Roboto Mono',
+		'Oswald',
+		'Anton',
+		'Bebas Neue',
+		'Dancing Script',
+		'Pacifico',
+		'Caveat',
+		'Comfortaa',
+		'Abril Fatface',
+		'Archivo',
+		'Space Grotesk',
+	);
 }
 
 function evfsc_migration() {

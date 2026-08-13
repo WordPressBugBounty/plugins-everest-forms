@@ -25,6 +25,16 @@ class EVF_AI_Form_Builder {
 	/** Set to true when a file-upload field was dropped because the free-tier limit (1) was reached. */
 	public static $file_upload_limited = false;
 
+	/** Set to a human-readable notice when the AI's embedded `style` block (see
+	 *  maybe_apply_ai_style()) included Pro-only tokens/palette that got stripped because
+	 *  Pro isn't active on this site — empty string when nothing was stripped. */
+	public static $style_pro_locked_notice = '';
+
+	/** Set to a human-readable notice when the AI's embedded `style` block asked for
+	 *  something no site can ever fulfil (a background image, an invented font) — see
+	 *  {@see RestController::unsupported_capability_notice()}. Empty string when nothing was flagged. */
+	public static $style_capability_notice = '';
+
 	/**
 	 * Create a new EVF form from the AI gateway response.
 	 * Saved as DRAFT — user must click "Use This Form" to publish.
@@ -57,7 +67,119 @@ class EVF_AI_Form_Builder {
 			'post_content' => evf_encode( $form_data ),
 		] );
 
+		// The gateway may include a `style` block alongside the form when the prompt carried
+		// visual intent ("sleek dark contact form") — see everest_forms_style.py's STYLE_BLOCK.
+		// The new draft is born pre-styled: it opens in the v2 Style tab already showing the
+		// look, with nothing further for the user to do.
+		self::maybe_apply_ai_style( $post_id, $ai_response );
+
 		return $post_id;
+	}
+
+	/**
+	 * Persist an AI-generated `style` block (from create_form()'s response) as this new form's
+	 * v2 style record. A pure best-effort enhancement: silently does nothing when Style
+	 * Customizer v2 isn't enabled, the response has no style intent, or the intent sanitizes to
+	 * nothing — a form is never left half-created over a styling failure.
+	 *
+	 * Reuses the SAME authoritative gate {@see RestController::save_item()} does
+	 * (Sanitizer::sanitize_record()), so an AI style can no more produce an unsafe or
+	 * tier-violating record here than it can through the customizer's own AI launcher.
+	 *
+	 * Also mirrors that launcher's honest-notice behaviour ({@see RestController::pro_locked_notice()}):
+	 * unlike the standalone Style AI chat, this path used to strip Pro-only tokens with no
+	 * explanation at all, so a free-tier form born from "create a sleek dark contact form"
+	 * could render nothing like what the AI's own summary described. Sets
+	 * self::$style_pro_locked_notice so EVF_AI_Ajax::get_pro_feature_notice() can surface it.
+	 *
+	 * Overlays onto the form's EXISTING style record exactly like the Style Customizer's own
+	 * AI chat client does ({@see StyleStore.applyAiRecord()} in store.ts) rather than replacing
+	 * it wholesale: the AI's output contract is strictly `{tokens, palette}`, so on a refine
+	 * (update_form()) a straight option overwrite would silently wipe a previously-picked
+	 * template or custom CSS, and treating an empty/omitted palette as "clear the palette"
+	 * would incorrectly detach an existing one even on a turn where the AI never touched it.
+	 * `$check_contrast = true` also matches ai_style()'s own sanitize_record() call, so an
+	 * AI-created form gets the same automatic light-on-light / dark-on-dark correction the
+	 * standalone chat already has.
+	 *
+	 * @param int   $post_id     The newly created (draft) form.
+	 * @param array $ai_response Full decoded gateway response (may contain a `style` key).
+	 */
+	private static function maybe_apply_ai_style( int $post_id, array $ai_response ) {
+		self::$style_pro_locked_notice  = '';
+		self::$style_capability_notice  = '';
+
+		// Temporarily disabled for this release, unconditionally and locally — not just via the
+		// client_supports_style() flag sent upstream (see EVF_AI_API::client_supports_style()),
+		// which only asks the gateway not to send style data and can't guarantee it won't anyway.
+		// Matches RestController::ai_style()'s own hard block. Re-enable by deleting this block.
+		if ( true ) {
+			return;
+		}
+
+		if ( empty( $ai_response['style'] ) || ! is_array( $ai_response['style'] ) ) {
+			return;
+		}
+		if ( ! class_exists( '\EverestForms\Addons\StyleCustomizer\V2\Engine' )
+			|| ! \EverestForms\Addons\StyleCustomizer\V2\Engine::enabled() ) {
+			return;
+		}
+
+		$style             = $ai_response['style'];
+		$requested_tokens  = isset( $style['tokens'] ) && is_array( $style['tokens'] ) ? $style['tokens'] : array();
+		$requested_palette = isset( $style['palette'] ) ? (string) $style['palette'] : '';
+
+		$clean = \EverestForms\Addons\StyleCustomizer\V2\Sanitizer::sanitize_record(
+			array(
+				'tokens'  => $requested_tokens,
+				'palette' => $requested_palette,
+			),
+			true
+		);
+
+		self::$style_pro_locked_notice = \EverestForms\Addons\StyleCustomizer\V2\RestController::pro_locked_notice(
+			$requested_tokens,
+			$clean['tokens'],
+			$requested_palette,
+			isset( $clean['palette'] ) ? $clean['palette'] : ''
+		);
+
+		self::$style_capability_notice = \EverestForms\Addons\StyleCustomizer\V2\RestController::unsupported_capability_notice(
+			$clean['tokens'],
+			'',
+			array()
+		);
+
+		if ( empty( $clean['tokens'] ) && empty( $clean['palette'] ) ) {
+			return; // Nothing survived sanitization — leave the existing/default style untouched.
+		}
+
+		$all      = get_option( 'everest_forms_styles', array() );
+		$existing = isset( $all[ $post_id ] ) && is_array( $all[ $post_id ] ) ? $all[ $post_id ] : array();
+
+		// Per-key overlay, not a wholesale replace — a key the AI didn't return this turn
+		// keeps its existing value (matches applyAiRecord()'s `this.tokens[key] = clone(bag)`).
+		$merged_tokens = isset( $existing['tokens'] ) && is_array( $existing['tokens'] ) ? $existing['tokens'] : array();
+		foreach ( $clean['tokens'] as $key => $value ) {
+			$merged_tokens[ $key ] = $value;
+		}
+		$existing['tokens'] = $merged_tokens;
+
+		// Empty palette from the AI = "didn't touch it this turn", not "clear it" — matches
+		// applyAiRecord()'s `if ( paletteId ) { … this.palette = paletteId; }`.
+		if ( '' !== $clean['palette'] ) {
+			$existing['palette'] = $clean['palette'];
+		} elseif ( ! isset( $existing['palette'] ) ) {
+			$existing['palette'] = '';
+		}
+
+		// template/custom_css (and anything else already in $existing) are left as-is — the
+		// AI's output contract never includes them, so there is nothing to overlay for those keys.
+		$existing['schema_version'] = $clean['schema_version'];
+		$existing['_updated_at']    = $clean['_updated_at'];
+
+		$all[ $post_id ] = $existing;
+		update_option( 'everest_forms_styles', $all, false ); // autoload=no, matches RestController::save_item().
 	}
 
 	/**
@@ -90,6 +212,10 @@ class EVF_AI_Form_Builder {
 			'post_title'   => $title,
 			'post_content' => evf_encode( $form_data ),
 		] );
+
+		// The gateway may include a `style` block on a refine too (see everest_forms.py's
+		// build_update_prompt() style-context addition) — no-ops silently when absent.
+		self::maybe_apply_ai_style( $form_id, $ai_response );
 
 		return $form_id;
 	}
@@ -196,12 +322,17 @@ class EVF_AI_Form_Builder {
 		$field_list        = [];
 		$field_index       = 0;
 		$file_upload_count = 0;
-		$is_pro_active     = defined( 'EVF_PRO_VERSION' ) || class_exists( 'EVF_Pro' );
+		$is_pro_active     = defined( 'EFP_PLUGIN_FILE' );
+		$logger            = evf_get_logger();
 		foreach ( ( $ai['fields'] ?? [] ) as $ai_field ) {
 			// Free tier: only one file-upload field is allowed per form.
 			if ( ! $is_pro_active && 'file-upload' === ( $ai_field['type'] ?? '' ) ) {
 				if ( $file_upload_count >= 1 ) {
 					self::$file_upload_limited = true;
+					$logger->warning(
+						sprintf( 'AI Form Builder: dropped extra file-upload field "%s" — free tier allows only one.', $ai_field['label'] ?? '' ),
+						array( 'source' => 'evf-ai' )
+					);
 					$field_index++;
 					continue;
 				}
@@ -213,6 +344,12 @@ class EVF_AI_Form_Builder {
 			if ( ! $evf_field ) {
 				$field_index++;
 				continue;
+			}
+			if ( ! $is_pro_active && in_array( $evf_field['type'], self::$pro_fields, true ) ) {
+				$logger->warning(
+					sprintf( 'AI Form Builder: added Pro-only field "%s" (%s) — it will not render on the frontend until Pro is active.', $evf_field['label'], $evf_field['type'] ),
+					array( 'source' => 'evf-ai' )
+				);
 			}
 			$built_fields[ $field_id ] = $evf_field;
 			if ( 'email' === $evf_field['type'] && null === $email_field_id ) {
@@ -334,6 +471,10 @@ class EVF_AI_Form_Builder {
 		$label = sanitize_text_field( $ai_field['label'] ?? ucfirst( $type ) );
 
 		if ( ! $type ) {
+			evf_get_logger()->warning(
+				sprintf( 'AI Form Builder: dropped a field with no type — label was "%s".', $ai_field['label'] ?? '' ),
+				array( 'source' => 'evf-ai' )
+			);
 			return null;
 		}
 
