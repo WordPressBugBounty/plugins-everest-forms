@@ -722,14 +722,27 @@ class EVF_Form_Task {
 			$logger->notice( sprintf( 'Everest Form Process After: %s', evf_print_r( $this->form_fields, true ) ) );
 
 			/**
-			 *  Apply smart tags to form fields values.
+			 * Apply smart tags to form fields values.
+			 *
+			 * Resolved strictly from the field's own admin-configured default_value
+			 * (the trusted form definition), never from the submitted value, so a
+			 * crafted request body cannot inject arbitrary smart tags such as
+			 * {post_meta key=...}. See https://github.com/themegrill/everest-forms/pull/1667.
 			 *
 			 * @since 3.2.3
 			 */
 			foreach ( $this->form_fields as $key => $value ) {
-				if ( 'hidden' === $value['type'] && ! empty( $value['value'] ) && is_string( $value['value'] ) && strpos( $value['value'], '{' ) !== false ) {
-					$this->form_fields[ $key ]['value'] = apply_filters( 'everest_forms_process_smart_tags', $value['value'], $this->form_data, $this->form_fields );
+				if ( 'hidden' !== $value['type'] ) {
+					continue;
 				}
+
+				if ( ! isset( $value['value'] ) || ! is_string( $value['value'] ) ) {
+					continue;
+				}
+
+				$default_value = isset( $this->form_data['form_fields'][ $key ]['default_value'] ) ? $this->form_data['form_fields'][ $key ]['default_value'] : '';
+
+				$this->form_fields[ $key ]['value'] = $this->resolve_hidden_field_default_tags( $value['value'], $default_value, $this->form_data, $this->form_fields );
 			}
 
 			// One last error check - don't proceed if there are any errors.
@@ -1550,7 +1563,7 @@ class EVF_Form_Task {
 
 		// Create meta data.
 		if ( $entry_id ) {
-			foreach ( $fields as $field ) {
+			foreach ( $fields as $field_key => $field ) {
 				$field = apply_filters( 'everest_forms_entry_save_fields', $field, $form_data, $entry_id );
 				// Add only whitelisted fields to entry meta.
 				if ( in_array( $field['type'], array( 'html', 'title' ), true ) ) {
@@ -1578,8 +1591,12 @@ class EVF_Form_Task {
 				}
 
 				if ( isset( $field['meta_key'], $field['value'] ) && '' !== $field['value'] ) {
-					if ( 'hidden' === $field['type'] && ! empty( $field['value'] ) && is_string( $field['value'] ) && strpos( $field['value'], '{' ) !== false ) {
-						$field['value'] = apply_filters( 'everest_forms_process_smart_tags', $field['value'], $form_data, $fields, $entry_id );
+					// Resolved strictly from the field's own admin-configured default_value
+					// (never the submitted value) -- see the matching fix in do_task().
+					if ( 'hidden' === $field['type'] && is_string( $field['value'] ) ) {
+						$field_id       = isset( $field['id'] ) ? $field['id'] : $field_key;
+						$default_value  = isset( $form_data['form_fields'][ $field_id ]['default_value'] ) ? $form_data['form_fields'][ $field_id ]['default_value'] : '';
+						$field['value'] = $this->resolve_hidden_field_default_tags( $field['value'], $default_value, $form_data, $fields, $entry_id );
 					}
 					$entry_metadata = array(
 						'entry_id'   => $entry_id,
@@ -2303,6 +2320,35 @@ class EVF_Form_Task {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Resolve the hidden field default's own smart tags that are still unresolved in the submitted value.
+	 *
+	 * @since 3.6.3
+	 *
+	 * @param string     $value         Submitted value.
+	 * @param string     $default_value Admin-configured default value.
+	 * @param array      $form_data     Form data.
+	 * @param array      $fields        Form fields.
+	 * @param int|string $entry_id      Entry ID.
+	 * @return string
+	 */
+	private function resolve_hidden_field_default_tags( $value, $default_value, $form_data, $fields, $entry_id = '' ) {
+		if ( ! is_string( $default_value ) || ! preg_match_all( '/\{[^{}]+\}/', $default_value, $tags ) ) {
+			return $value;
+		}
+
+		$replacements = array();
+
+		foreach ( array_unique( $tags[0] ) as $tag ) {
+			if ( false !== strpos( $value, $tag ) ) {
+				$replacements[ $tag ] = (string) apply_filters( 'everest_forms_process_smart_tags', $tag, $form_data, $fields, $entry_id );
+			}
+		}
+
+		// strtr() replaces in one pass, so text inserted by a resolved tag is never parsed again.
+		return $replacements ? strtr( $value, $replacements ) : $value;
 	}
 
 	/**

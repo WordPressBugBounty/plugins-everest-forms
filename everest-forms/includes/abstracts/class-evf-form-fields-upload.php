@@ -21,7 +21,7 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 	 *
 	 * @var array
 	 */
-	protected $blacklist = array( 'ade', 'adp', 'app', 'asp', 'bas', 'bat', 'cer', 'cgi', 'chm', 'cmd', 'com', 'cpl', 'crt', 'csh', 'csr', 'dll', 'drv', 'exe', 'fxp', 'flv', 'hlp', 'hta', 'htaccess', 'htm', 'htpasswd', 'inf', 'ins', 'isp', 'jar', 'js', 'jse', 'jsp', 'ksh', 'lnk', 'mdb', 'mde', 'mdt', 'mdw', 'msc', 'msi', 'msp', 'mst', 'ops', 'pcd', 'php', 'pif', 'pl', 'prg', 'ps1', 'ps2', 'py', 'rb', 'reg', 'scr', 'sct', 'sh', 'shb', 'shs', 'sys', 'swf', 'tmp', 'torrent', 'url', 'vb', 'vbe', 'vbs', 'vbscript', 'wsc', 'wsf', 'wsf', 'wsh' );
+	protected $blacklist = array( 'ade', 'adp', 'app', 'asp', 'bas', 'bat', 'cer', 'cgi', 'chm', 'cmd', 'com', 'cpl', 'crt', 'csh', 'csr', 'dll', 'drv', 'exe', 'fxp', 'flv', 'hlp', 'hta', 'htaccess', 'htm', 'html', 'xhtml', 'shtml', 'phtml', 'htpasswd', 'inf', 'ins', 'isp', 'jar', 'js', 'jse', 'jsp', 'ksh', 'lnk', 'mdb', 'mde', 'mdt', 'mdw', 'msc', 'msi', 'msp', 'mst', 'ops', 'pcd', 'php', 'pif', 'pl', 'prg', 'ps1', 'ps2', 'py', 'rb', 'reg', 'scr', 'sct', 'sh', 'shb', 'shs', 'sys', 'swf', 'tmp', 'torrent', 'url', 'vb', 'vbe', 'vbs', 'vbscript', 'wsc', 'wsf', 'wsf', 'wsh' );
 
 	/**
 	 * Files that are not allowed to be deleted.
@@ -29,6 +29,13 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 	 * @var array
 	 */
 	protected $protected_files = array( 'index.html', 'index.php', '.htaccess', '.htpasswd' );
+
+	/**
+	 * Real paths of files moved into the form uploads folder during this request.
+	 *
+	 * @var array
+	 */
+	protected $request_files = array();
 
 	/**
 	 * Hook in tabs.
@@ -529,6 +536,16 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 		// For checking form is published or not.
 		$the_post = get_post( absint( $form_data['id'] ) );
 		if ( $the_post && 'publish' !== $the_post->post_status ) {
+			return array();
+		}
+
+		// The field must exist in the form and be an upload field, otherwise field-specific restrictions would be bypassed.
+		if (
+			empty( $form_data['form_fields'][ $field_id ] ) ||
+			! is_array( $form_data['form_fields'][ $field_id ] ) ||
+			empty( $form_data['form_fields'][ $field_id ]['type'] ) ||
+			! in_array( $form_data['form_fields'][ $field_id ]['type'], array( 'file-upload', 'image-upload' ), true )
+		) {
 			return array();
 		}
 
@@ -1376,6 +1393,12 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 					$this->create_dir( dirname( $file['path'] ) );
 					@rename( $file['tmp_path'], $file['path'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 					$this->set_file_fs_permissions( $file['path'] );
+
+					$real_path = realpath( $file['path'] );
+
+					if ( false !== $real_path ) {
+						$this->request_files[] = wp_normalize_path( $real_path );
+					}
 				}
 
 				$data[] = $this->generate_file_data( $file );
@@ -1659,31 +1682,12 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 	public function remove_csv_file_after_email_send( $attachment, $entry, $form_data, $context, $connection_id, $entry_id ) {
 
 		if ( isset( $form_data['settings']['disabled_entries'] ) && '1' === $form_data['settings']['disabled_entries'] ) {
-			if ( ! empty( $entry ) && is_array( $entry ) ) {
-				foreach ( $entry as $meta_key => $meta_value ) {
-					if ( empty( $meta_value ) ) {
-						continue;
-					}
-
-					if ( preg_match( '/signature_/', $meta_key ) && file_exists( $meta_value ) ) {
-						unlink( $meta_value );
-					}
-
-					if ( isset( $meta_value['type'] ) && ( 'file-upload' === $meta_value['type'] && ! empty( $meta_value['value_raw'] ) || 'image-upload' === $meta_value['type'] && isset( $meta_value['value_raw'] ) ) ) {
-
-						foreach ( $meta_value['value_raw'] as $file_data ) {
-							if ( isset( $file_data['value'] ) ) {
-								$file_url = $file_data['value'];
-
-								$uploaded_file = ABSPATH . preg_replace( '/.*wp-content/', 'wp-content', wp_parse_url( $file_url, PHP_URL_PATH ) );
-								if ( file_exists( $uploaded_file ) ) {
-									unlink( $uploaded_file );
-								}
-							}
-						}
-					}
-				}
+			// File URLs in the entry can come from the request (old_files), so only delete what this request uploaded.
+			foreach ( $this->request_files as $file_path ) {
+				wp_delete_file( $file_path );
 			}
+
+			$this->request_files = array();
 		}
 
 		if ( ! $entry_id ) {
@@ -1756,7 +1760,7 @@ abstract class EVF_Form_Fields_Upload extends EVF_Form_Fields {
 				}
 
 				if ( preg_match( '/signature_/', $meta_key ) ) {
-					if ( file_exists( $meta_value ) ) {
+					if ( is_string( $meta_value ) && file_exists( $meta_value ) ) {
 						$entry_files[] = $meta_value;
 					}
 				} elseif ( isset( $meta_value['type'] ) && ( 'file-upload' === $meta_value['type'] && ! empty( $meta_value['value_raw'] ) || 'image-upload' === $meta_value['type'] && isset( $meta_value['value_raw'] ) ) ) {
