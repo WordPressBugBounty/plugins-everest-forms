@@ -4,7 +4,7 @@ Tags: contact form, custom form, form builder, forms, survey
 Requires at least: 5.5
 Tested up to: 7.1.3
 Requires PHP: 7.2
-Stable tag: 3.6.3
+Stable tag: 3.6.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -52,6 +52,9 @@ Building WordPress forms should be simple, powerful, and affordable; Everest For
 ##AI Form Builder
 Describe your form in plain words — Everest Forms AI will handle the fields, logic, and layout in seconds. Whether it's a freelance contract with a digital signature, a health check-in with range sliders, or a multi-step application — just type it and it's built. Choose from inspiration prompts or write your own, then refine the result with a follow-up prompt before publishing.
 
+## AI Abilities (MCP Ready)
+Built-in WordPress Abilities support lets AI assistants easily access and work with your forms and entries. Connect in a click with [Easy MCP AI](https://easymcpai.com/) or the official MCP Adapter.
+
 ## More Features in Free Version
 
 While other plugins charge premium prices for file uploads and advanced fields, Everest Forms includes file uploads, image uploads, and 35+ essential form fields absolutely free. No artificial limitations.
@@ -96,6 +99,7 @@ Get advanced capabilities like multi-step forms, conversational forms, AI-powere
 * Unlimited Forms
 * Powerful Form Builder
 * AI Form Builder
+* AI Abilities (MCP Ready)
 * 35+ Form Fields
 * Style Customizer
 * Entry Management
@@ -344,6 +348,12 @@ Yes you can! Join in on our [GitHub repository](https://github.com/wpeverest/eve
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/f788d7f0-ea8a-4fd5-bcae-81a5d09a476c)
 
 == Changelog ==
+
+= 3.6.4       - 05-11-2026
+* Enhance 	  - Improved handling of signature files in email notification attachments.
+* Fix 		  - Improved security of form data exposed in the block editor and email preview.
+* Fix 		  - Improved security of form editing permissions and custom CSS/JS output.
+* Fix 		  - Custom JavaScript containing double quotes did not run on the form page.
 
 = 3.6.3       - 15-10-2026
 * Fix 		  - Improved security of smart tag resolution for hidden field values.

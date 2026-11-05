@@ -31,6 +31,54 @@ class EVF_Post_Types {
 		add_action( 'admin_bar_menu', array( __CLASS__, 'admin_bar_menus' ), 100 );
 		add_action( 'everest_forms_after_register_post_type', array( __CLASS__, 'maybe_flush_rewrite_rules' ) );
 		add_action( 'everest_forms_flush_rewrite_rules', array( __CLASS__, 'flush_rewrite_rules' ) );
+		add_filter( 'wp_insert_post_data', array( __CLASS__, 'preserve_custom_code' ), 10, 2 );
+	}
+
+	/**
+	 * Keep a form's stored custom CSS and JavaScript when the saving user cannot add unfiltered HTML.
+	 *
+	 * @since 3.6.4
+	 *
+	 * @param array $data    Slashed post data to be saved.
+	 * @param array $postarr Slashed post data passed to wp_insert_post().
+	 * @return array
+	 */
+	public static function preserve_custom_code( $data, $postarr ) {
+		if ( 'everest_form' !== $data['post_type'] || ! is_user_logged_in() || current_user_can( 'unfiltered_html' ) ) {
+			return $data;
+		}
+
+		$form_data = json_decode( wp_unslash( $data['post_content'] ), true );
+
+		if ( ! is_array( $form_data ) || ( isset( $form_data['settings'] ) && ! is_array( $form_data['settings'] ) ) ) {
+			return $data;
+		}
+
+		$stored  = empty( $postarr['ID'] ) ? array() : evf_decode( get_post_field( 'post_content', absint( $postarr['ID'] ), 'raw' ) );
+		$changed = false;
+
+		foreach ( array( 'evf-enable-custom-css', 'evf-custom-css', 'evf-enable-custom-js', 'evf-custom-js' ) as $key ) {
+			$old = isset( $stored['settings'][ $key ] ) ? $stored['settings'][ $key ] : null;
+			$new = isset( $form_data['settings'][ $key ] ) ? $form_data['settings'][ $key ] : null;
+
+			if ( $old === $new ) {
+				continue;
+			}
+
+			$changed = true;
+
+			if ( null === $old ) {
+				unset( $form_data['settings'][ $key ] );
+			} else {
+				$form_data['settings'][ $key ] = $old;
+			}
+		}
+
+		if ( $changed ) {
+			$data['post_content'] = evf_encode( $form_data );
+		}
+
+		return $data;
 	}
 
 	/**
@@ -77,6 +125,20 @@ class EVF_Post_Types {
 					'show_ui'             => true,
 					'description'         => __( 'This is where you can add new forms.', 'everest-forms' ),
 					'capability_type'     => 'post',
+					'capabilities'        => array(
+						'create_posts'           => 'everest_forms_create_forms',
+						'publish_posts'          => 'everest_forms_create_forms',
+						'edit_posts'             => 'everest_forms_edit_forms',
+						'edit_published_posts'   => 'everest_forms_edit_forms',
+						'edit_others_posts'      => 'everest_forms_edit_others_forms',
+						'edit_private_posts'     => 'everest_forms_edit_others_forms',
+						'read_private_posts'     => 'everest_forms_view_others_forms',
+						'delete_posts'           => 'everest_forms_delete_forms',
+						'delete_published_posts' => 'everest_forms_delete_forms',
+						'delete_others_posts'    => 'everest_forms_delete_others_forms',
+						'delete_private_posts'   => 'everest_forms_delete_others_forms',
+					),
+					'map_meta_cap'        => true,
 					'publicly_queryable'  => false,
 					'exclude_from_search' => true,
 					'show_in_rest'        => true,
